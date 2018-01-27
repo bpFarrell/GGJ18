@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpamQuads : MonoBehaviour {
+    public Transform racer;
     public Material mat;
     int width = 8;
 	// Use this for initialization
@@ -15,5 +16,6 @@ public class SpamQuads : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	}
+        mat.SetFloat("_Location", racer.position.magnitude+5);
+    }
 }

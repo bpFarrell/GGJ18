@@ -70,7 +70,7 @@ namespace SplineLogic
                 _enterHandle.position = transform.position + (-1f * transform.forward);
                 SplineHandle enterhand = _enterHandle.gameObject.AddComponent<SplineHandle>();
                 enterhand.size = size / 3;
-                enterhand.color = Color.yellow;
+                enterhand.color = Color.blue;
             }
             if (_exitHandle == null)
             {
@@ -79,7 +79,7 @@ namespace SplineLogic
                 _exitHandle.position = transform.position + (1f * transform.forward);
                 SplineHandle exithand = _exitHandle.gameObject.AddComponent<SplineHandle>();
                 exithand.size = size / 3;
-                exithand.color = Color.red;
+                exithand.color = Color.cyan;
             }
         }
         private void OnDrawGizmos()

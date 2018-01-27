@@ -19,6 +19,7 @@ public class SlabController : MonoBehaviour {
         parent.transform.position = pos;
         parent.transform.eulerAngles = rot;
         slabs.Add(parent.AddComponent<SlabController>());
+        parent.layer = 4;
         Vector2[] lanePos = new Vector2[4];
         for (int uv = 0; uv < 4; uv++) {
             lanePos[uv] = new Vector2(t, t);
