@@ -10,7 +10,7 @@ public class SpamQuads : MonoBehaviour {
 	void Start () {
         GameObject parent = new GameObject("Parent");
         for (int y = 0; y < 40; y++) {
-            SlabController.SpawnSlab(new Vector3(0, 0, y), Vector3.zero, y);
+            SlabController.SpawnSlab(new Vector3(0, 0, y), Quaternion.identity, y);
         }
     }
 	

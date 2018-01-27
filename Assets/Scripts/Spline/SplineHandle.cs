@@ -19,7 +19,7 @@ namespace SplineLogic
 
         private void OnDrawGizmos()
         {
-            DrawHandle(size);
+            //DrawHandle(size);
         }
         public void DrawHandle(float size)
         {

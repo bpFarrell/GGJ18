@@ -28,6 +28,7 @@ namespace SplineLogic
                 {
                     _hiddenContainer = new GameObject("Container");
                     _hiddenContainer.transform.parent = transform;
+
                 }
                 return _hiddenContainer;
             }
@@ -173,10 +174,11 @@ namespace SplineLogic
         }
         public Quaternion EvaluateRotation(float val)
         {
+            Vector3 splineForward = EvaluateSurfaceTangent(val);
+            Vector3 splineLeft = Vector3.Cross(splineForward, Vector3.up);
+            Vector3 splineUp = Vector3.Cross(splineLeft, splineForward);
 
-            Quaternion value = new Quaternion();
-
-            return value;
+            return Quaternion.LookRotation(splineForward, splineUp);
         }
         public void HideContainer(bool b)
         {

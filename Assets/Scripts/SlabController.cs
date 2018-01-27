@@ -12,17 +12,17 @@ public class SlabController : MonoBehaviour {
     }
     private static bool hasFinished;
     public static List<SlabController> slabs = new List<SlabController>();
-    public static void SpawnSlab(Vector3 pos, Vector3 rot,float t) {
+    public static void SpawnSlab(Vector3 pos, Quaternion rot,float t) {
         if (hasFinished) {
             hasFinished = false;
             slabs.Clear();
         }
         GameObject parent = new GameObject("Slab: " + t);
         parent.transform.position = pos;
-        parent.transform.eulerAngles = rot;
         SlabController slab = parent.AddComponent<SlabController>();
         slabs.Add(slab);
         slab.t = t;
+        parent.transform.rotation = rot;
         parent.layer = 4;
         slab.quads = new Mesh[width];
         Vector2[] lanePos = new Vector2[4];
