@@ -4,6 +4,8 @@
 	{
 		_MainTex ("Texture", 2D) = "white" {}
 		_Offset("Offset",Float) = 0
+		_Jumping("Jumping",Float) = 1
+		_Lean("Leaning",Float)=0
 	}
 	SubShader
 	{
@@ -38,12 +40,15 @@
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 			float _Offset;
+			float _Jumping;
+			float _Lean;
 			v2f vert (appdata v)
 			{
 				v2f o;
 				float4 ball = float4(normalize(v.vertex.xyz),0);
 				float4 vert = v.vertex;
-				vert.y += abs(sin(vert.z*0.3+_Time.x*80)); 
+				vert.y += abs(sin(vert.z*0.3+_Offset))*_Jumping; 
+				vert.x += (vert.y)*_Lean;
 				o.vertex = UnityObjectToClipPos(vert);
 /*
 				o.vertex = UnityObjectToClipPos(lerp(ball,vert,_Offset));
@@ -61,7 +66,7 @@
 				fixed4 col = tex2D(_MainTex, i.uv);
 				// apply fog
 				UNITY_APPLY_FOG(i.fogCoord, col);
-				return fixed4((i.normal*0.5+0.5)*1.8,1);
+				return fixed4((i.normal*0.5+0.5),1);
 			}
 			ENDCG
 		}
