@@ -50,12 +50,12 @@
 					_Object2World[1][3],
 					_Object2World[2][3]); // mul(_Object2World, v.vertex);
 					*/
-				float xpos = abs(v.uv2.x * 2 - 1)*0.5;
+				float xpos = abs(v.uv2.x * 2 - 1)*1;
 				float dist = v.uv2.y+xpos-_Location;//length(worldPos);
-				float t = saturate(1 - (dist*0.2 - 2));
+				float t = saturate(1 - (dist - 2));
 				v.vertex.xyz += v.clr *(1 - t)*5.;
 				v.vertex *= t;
-				v.vertex.z -= 1 - t*2;
+				v.vertex.z -= 1 - t*2+1;
 
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
