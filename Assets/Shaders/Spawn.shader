@@ -55,7 +55,7 @@
 				float t = saturate(1 - (dist - 2));
 				v.vertex.xyz += v.clr *(1 - t)*5.;
 				v.vertex *= t;
-				v.vertex.z -= 1 - t*2;
+				v.vertex.z -= 1 - t*2+1;
 
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
