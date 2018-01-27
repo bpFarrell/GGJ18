@@ -8,10 +8,10 @@ public class SlabController : MonoBehaviour {
     public static Material mat {
         get { return _mat ?? (_mat = Resources.Load("Unlit_Spawn")as Material); }
     }
-    public static void SpawnSlab(Vector3 pos, Vector3 rot,float t) {
+    public static void SpawnSlab(Vector3 pos, Quaternion rot,float t) {
         GameObject parent = new GameObject("Slab: " + t);
         parent.transform.position = pos;
-        parent.transform.eulerAngles = rot;
+        parent.transform.rotation = rot;
         parent.layer = 4;
         Vector2[] lanePos = new Vector2[4];
         for (int uv = 0; uv < 4; uv++) {

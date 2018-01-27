@@ -34,11 +34,9 @@ public class TrackBuilder : MonoBehaviour {
             deltaDistance += distanceBetweenPoints;
             if(deltaDistance >= 1f)
             {
-                Vector3 splineForward = spline.EvaluateSurfaceTangent(counter);
-                Vector3 splineLeft = Vector3.Cross(splineForward, Vector3.up);
-                Vector3 splineUp = Vector3.Cross(splineLeft, splineForward);
 
-                Vector3 rotation = Quaternion.LookRotation(splineForward, splineUp).eulerAngles;
+
+                Quaternion rotation = spline.EvaluateRotation(counter);
 
                 deltaDistance -= 1f;
                 SlabController.SpawnSlab(counterPoint, rotation, counter);
