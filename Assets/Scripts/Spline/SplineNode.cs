@@ -17,7 +17,7 @@ namespace SplineLogic
     {
         public int id;
         public float size;
-        private Transform _enterHandle;
+        public Transform _enterHandle;
         public Vector3 enter
         {
             get
@@ -34,7 +34,7 @@ namespace SplineLogic
             }
         }
 
-        private Transform _exitHandle;
+        public Transform _exitHandle;
 
         public Vector3 exit
         {
@@ -68,18 +68,21 @@ namespace SplineLogic
                 _enterHandle = new GameObject("enter handle").transform;
                 _enterHandle.parent = transform;
                 _enterHandle.position = transform.position + (-1f * transform.forward);
+                _enterHandle.rotation = transform.rotation;
                 SplineHandle enterhand = _enterHandle.gameObject.AddComponent<SplineHandle>();
                 enterhand.size = size / 3;
-                enterhand.color = Color.blue;
+                enterhand.color = Color.cyan;
+                
             }
             if (_exitHandle == null)
             {
                 _exitHandle = new GameObject("exit handle").transform;
                 _exitHandle.parent = transform;
                 _exitHandle.position = transform.position + (1f * transform.forward);
+                _exitHandle.rotation = transform.rotation;
                 SplineHandle exithand = _exitHandle.gameObject.AddComponent<SplineHandle>();
                 exithand.size = size / 3;
-                exithand.color = Color.cyan;
+                exithand.color = Color.blue;
             }
         }
         private void OnDrawGizmos()
@@ -88,12 +91,15 @@ namespace SplineLogic
         }
         public void DrawHandle(float size)
         {
+            _exitHandle.GetComponent<SplineHandle>().DrawHandle(size / 3);
+            _enterHandle.GetComponent<SplineHandle>().DrawHandle(size / 3);
             Color prevColor = Gizmos.color;
             Gizmos.DrawLine(transform.position, enter);
             Gizmos.DrawLine(transform.position, exit);
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(transform.position, size);
-
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(transform.position, transform.position + transform.up);
             Gizmos.color = prevColor;
         }
     }

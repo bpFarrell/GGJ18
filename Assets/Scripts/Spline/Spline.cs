@@ -68,7 +68,8 @@ namespace SplineLogic
         {
             if (NodesCount == 0) AddNode();
 
-            AddCurve(nodes.Last().transform.position + (Vector3.forward * handleSize * 3), Quaternion.identity, 1f);
+            Transform trans = nodes.Last().transform;
+            AddCurve(nodes.Last().transform.position + (Vector3.forward * handleSize * 3), trans.rotation, trans.localScale.z);
         }
 
         public void AddCurve(Vector3 pos, Quaternion rot, float zScale)
@@ -162,6 +163,16 @@ namespace SplineLogic
                 3f * oneMinus * t * t * p2 + 
                 t * t * t * p3;
         }
+        public Quaternion GetBezierRotation(Quaternion q0, Quaternion q1, Quaternion q2, Quaternion q3, float t)
+        {
+            float oneMinus = 1f - t;
+            Quaternion q4 = Quaternion.Lerp(q0, q1, t);
+            Quaternion q5 = Quaternion.Lerp(q1, q2, t);
+            Quaternion q6 = Quaternion.Lerp(q2, q3, t);
+            Quaternion q7 = Quaternion.Lerp(q4, q5, t);
+            Quaternion q8 = Quaternion.Lerp(q5, q6, t);
+            return Quaternion.Lerp(q7, q8, t);
+        }
         public Vector3 EvaluateSurfaceTangent(float val)
         {
             val = Mathf.Clamp(val, 0, numberOfCurves);
@@ -186,8 +197,21 @@ namespace SplineLogic
         }
         public Quaternion EvaluateRotation(float val)
         {
+            val = Mathf.Clamp(val, 0, numberOfCurves);
+            float t = val % 1;
+            int curve = (int)(val - t);
+            if (curve == numberOfCurves) return nodes.Last().transform.rotation;
+
+            int startIndex = curve;
+
+            Quaternion lerpRotation = GetBezierRotation(nodes[startIndex + 0].transform.rotation,
+                                  nodes[startIndex + 0]._exitHandle.rotation,
+                                  nodes[startIndex + 1]._enterHandle.rotation,
+                                  nodes[startIndex + 1].transform.rotation,
+                                  t);
+
             Vector3 splineForward = EvaluateSurfaceTangent(val);
-            Vector3 splineLeft = Vector3.Cross(splineForward, Vector3.up);
+            Vector3 splineLeft = Vector3.Cross(splineForward, lerpRotation * Vector3.up);
             Vector3 splineUp = Vector3.Cross(splineLeft, splineForward);
 
             return Quaternion.LookRotation(splineForward, splineUp);

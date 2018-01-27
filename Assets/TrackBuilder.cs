@@ -20,7 +20,8 @@ public class TrackBuilder : MonoBehaviour {
     public float stepSize = 0.001f;
 	// Use this for initialization
 	void Start () {
-        CreateTrackNodes();
+        if (generationEnabled)
+            CreateTrackNodes();
 
         SpawnSlabs();
 	}
