@@ -20,17 +20,17 @@ namespace SplineLogic
         public List<SplineNode> nodes = new List<SplineNode>();
         public GameObject hiddenContainer;
         public int segments = 6;
-        public int length
+        public int NodesCount
         {
             get { return nodes.Count; }
         }
-        public int count
+        public int totalSegments
         {
-            get { return length * segments; }
+            get { return NodesCount * segments; }
         }
-        public int curves
+        public int numberOfCurves
         {
-            get { return (length - 1);  }
+            get { return (NodesCount - 1);  }
         }
 
         public bool debugNodeLine;
@@ -50,7 +50,7 @@ namespace SplineLogic
 
         public void AddCurve()
         {
-            if (length == 0) AddNode();
+            if (NodesCount == 0) AddNode();
 
             AddNode();
         }
@@ -58,7 +58,7 @@ namespace SplineLogic
         private void AddNode()
         {
             GameObject go = new GameObject("Node");
-            if (length > 0) go.transform.position = nodes.Last().transform.position + (Vector3.left * handleSize*3);
+            if (NodesCount > 0) go.transform.position = nodes.Last().transform.position + (Vector3.left * handleSize*3);
             else go.transform.position = transform.position;
             go.transform.parent = hiddenContainer.transform;
             SplineNode script = go.AddComponent<SplineNode>();
@@ -74,7 +74,7 @@ namespace SplineLogic
 
         private void RemoveNode()
         {
-            if (length <= 0) return;
+            if (NodesCount <= 0) return;
             GameObject go = nodes.Last().gameObject;
             nodes.Remove(nodes.Last());
             DestroyImmediate(go);
@@ -83,10 +83,10 @@ namespace SplineLogic
         private void OnDrawGizmos()
         {
             if (nodes == null) Init();
-            if (length <= 1) return;
+            if (NodesCount <= 1) return;
             if (debugNodeLine)
             {
-                for (int i = 0; i < length - 1; i++)
+                for (int i = 0; i < NodesCount - 1; i++)
                 {
                     nodes[i].size = handleSize;
                     Gizmos.DrawLine(nodes[i].transform.position, nodes[i + 1].transform.position);
@@ -96,9 +96,9 @@ namespace SplineLogic
             {
                 Vector3 lastPoint = nodes.First().transform.position;
                 Gizmos.color = Color.blue;
-                for (int x = 1; x <= count; x++)
+                for (int x = 1; x <= totalSegments; x++)
                 {
-                    Vector3 point = EvaluatePosition((float)((float)x / (float)count) * (float)curves);
+                    Vector3 point = EvaluatePosition((float)((float)x / (float)totalSegments) * (float)numberOfCurves);
                     Gizmos.DrawLine(lastPoint, point);
                     lastPoint = point;
                 }
@@ -106,11 +106,10 @@ namespace SplineLogic
         }
         public Vector3 EvaluatePosition(float val)
         {
-            val = Mathf.Clamp(val, 0, curves);
+            val = Mathf.Clamp(val, 0, numberOfCurves);
             float t = val % 1;
             int curve = (int)(val - t);
-            if (curve == curves) return nodes.Last().transform.position;
-
+            if (curve == numberOfCurves) return nodes.Last().transform.position;
 
             int startIndex = curve;
 
@@ -136,6 +135,28 @@ namespace SplineLogic
                 3f * oneMinus * oneMinus * t * p1 +
                 3f * oneMinus * t * t * p2 + 
                 t * t * t * p3;
+        }
+        public Vector3 EvaluateSurfaceTangent(float val)
+        {
+            val = Mathf.Clamp(val, 0, numberOfCurves);
+            float t = val % 1;
+            int curve = (int)(val - t);
+            if (curve == numberOfCurves) return nodes.Last().transform.position;
+
+            int startIndex = curve;
+
+            return getBezierForward(nodes[startIndex + 0].transform.position,
+                                  nodes[startIndex + 0].exit,
+                                  nodes[startIndex + 1].enter,
+                                  nodes[startIndex + 1].transform.position,
+                                  t);
+        }
+        public Vector3 getBezierForward(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
+        {
+            float oneMinus = 1f - t;
+            return 3f * oneMinus * oneMinus * (p1 - p0) +
+                6f * oneMinus * t * (p2 - p1) +
+                3f * t * t * (p3 - p2);
         }
         public Quaternion EvaluateRotation(float val)
         {
