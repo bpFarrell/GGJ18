@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SlabController : MonoBehaviour {
     public static int width = 8;
+    private float t;
+    private Mesh[] quads;
     private static Material _mat;
     public static Material mat {
         get { return _mat ?? (_mat = Resources.Load("Unlit_Spawn")as Material); }
@@ -18,8 +20,11 @@ public class SlabController : MonoBehaviour {
         GameObject parent = new GameObject("Slab: " + t);
         parent.transform.position = pos;
         parent.transform.eulerAngles = rot;
-        slabs.Add(parent.AddComponent<SlabController>());
+        SlabController slab = parent.AddComponent<SlabController>();
+        slabs.Add(slab);
+        slab.t = t;
         parent.layer = 4;
+        slab.quads = new Mesh[width];
         Vector2[] lanePos = new Vector2[4];
         for (int uv = 0; uv < 4; uv++) {
             lanePos[uv] = new Vector2(t, t);
@@ -45,6 +50,7 @@ public class SlabController : MonoBehaviour {
             mesh.colors = clrs;
             mesh.uv2 = lanePos;
             mesh.UploadMeshData(false);
+            slab.quads[x] = mesh;
             go.GetComponent<MeshFilter>().mesh = mesh;
         }
         BoxCollider bc = parent.AddComponent<BoxCollider>();
@@ -53,9 +59,40 @@ public class SlabController : MonoBehaviour {
     }
     public static void FinalizeSlabs() {
         hasFinished = true;
+        for(int x = 1; x < slabs.Count-1; x++) {
+
+        }
     }
-	// Use this for initialization
-	void Start () {
+    public Vector3 fl {
+        get {
+            return transform.position +
+                transform.forward * 0.5f +
+                transform.right * -((float)width) * 0.5f;
+        }
+    }
+    public Vector3 fr {
+        get {
+            return transform.position +
+                transform.forward * 0.5f +
+                transform.right * ((float)width) * 0.5f;
+        }
+    }
+    public Vector3 bl {
+        get {
+            return transform.position +
+                transform.forward * -0.5f +
+                transform.right * -((float)width) * 0.5f;
+        }
+    }
+    public Vector3 br {
+        get {
+            return transform.position +
+                transform.forward * -0.5f +
+                transform.right * ((float)width) * 0.5f;
+        }
+    }
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
