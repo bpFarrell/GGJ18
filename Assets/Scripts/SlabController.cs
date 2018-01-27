@@ -8,10 +8,17 @@ public class SlabController : MonoBehaviour {
     public static Material mat {
         get { return _mat ?? (_mat = Resources.Load("Unlit_Spawn")as Material); }
     }
+    private static bool hasFinished;
+    public static List<SlabController> slabs = new List<SlabController>();
     public static void SpawnSlab(Vector3 pos, Quaternion rot,float t) {
+        if (hasFinished) {
+            hasFinished = false;
+            slabs.Clear();
+        }
         GameObject parent = new GameObject("Slab: " + t);
         parent.transform.position = pos;
         parent.transform.rotation = rot;
+        slabs.Add(parent.AddComponent<SlabController>());
         parent.layer = 4;
         Vector2[] lanePos = new Vector2[4];
         for (int uv = 0; uv < 4; uv++) {
@@ -43,6 +50,9 @@ public class SlabController : MonoBehaviour {
         BoxCollider bc = parent.AddComponent<BoxCollider>();
 
         bc.size = new Vector3(width,0.01f,1);
+    }
+    public static void FinalizeSlabs() {
+        hasFinished = true;
     }
 	// Use this for initialization
 	void Start () {
