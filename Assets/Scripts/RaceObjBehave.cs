@@ -14,14 +14,14 @@ public class RaceObjBehave : MonoBehaviour {
         racer.transform.localPosition = transform.up * (y * .5f);
     }
 	void Start () {
-        AdjustRacerLocalPos();
+    //    AdjustRacerLocalPos();
 	}
     public enum State {
         idle,
         onTrack,
         falling
     }
-    State state;
+    public State state;
 	void Update () {
         
         Vector3 direction = transform.forward * Time.deltaTime * speed;
@@ -36,11 +36,11 @@ public class RaceObjBehave : MonoBehaviour {
                 state = State.onTrack;
                 if (Input.GetKey(KeyCode.A))
                 {
-                    transform.Rotate(transform.up * -100 * Time.deltaTime);
+                    transform.Rotate(Vector3.up * -100 * Time.deltaTime);
                 }
                 if (Input.GetKey(KeyCode.D))
                 {
-                    transform.Rotate(transform.up * 100 * Time.deltaTime);
+                    transform.Rotate(Vector3.up * 100 * Time.deltaTime);
                 }
                 Vector3 point = hitInfo.point;
                 transform.position = Vector3.Lerp(transform.position, point, Time.deltaTime* speed);

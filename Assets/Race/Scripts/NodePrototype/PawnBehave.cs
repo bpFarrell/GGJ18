@@ -25,7 +25,9 @@ public class PawnBehave : MonoBehaviour {
     public void Update()
     {
         if (state == State.enroute) {
-            transform.position = Vector3.Lerp(transform.position, _destination, Time.deltaTime);
+            transform.LookAt(_destination);
+            transform.position += transform.forward * Time.deltaTime * 10;
+            //transform.position = Vector3.Lerp(transform.position, _destination, Time.deltaTime);
             if ((transform.position - _destination).magnitude < 0.1f) {
                 state = State.done;
                 destinationNode.nodeTrans.GetComponent<MeshRenderer>().material.color = Color.red;
