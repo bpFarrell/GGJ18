@@ -1,15 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using SplineLogic;
 public class SlabController : MonoBehaviour {
-    public static int width = 8;
+    public static int width = 10;
     private float t;
     private Mesh[] quads;
+    private GameObject[] gos;
     private static Material _mat;
     public static Material mat {
         get { return _mat ?? (_mat = Resources.Load("Unlit_Spawn")as Material); }
     }
+    private static GameObject _customQuad;
+    public static GameObject customQuad {
+        get { return _customQuad ?? (_customQuad = Resources.Load("Quad") as GameObject); }
+    } 
     private static bool hasFinished;
     public static List<SlabController> slabs = new List<SlabController>();
     public static void SpawnSlab(Vector3 pos, Quaternion rot,float t) {
@@ -25,16 +30,16 @@ public class SlabController : MonoBehaviour {
         parent.transform.rotation = rot;
         parent.layer = 4;
         slab.quads = new Mesh[width];
+        slab.gos = new GameObject[width];
         Vector2[] lanePos = new Vector2[4];
         for (int uv = 0; uv < 4; uv++) {
             lanePos[uv] = new Vector2(t, t);
         }
         for (int x = 0; x < width; x++) {
-            GameObject go = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            GameObject go = Instantiate(customQuad);//GameObject.CreatePrimitive(PrimitiveType.Quad);
             go.transform.SetParent(parent.transform);
             go.transform.localPosition = new Vector3(x-((float)(width-1)*0.5f), 0, 0);
-            go.transform.localEulerAngles = new Vector3(90, 0, 0);
-            Destroy(go.GetComponent<MeshCollider>());
+            go.transform.localEulerAngles = new Vector3(0, 0, 0);
             go.GetComponent<MeshRenderer>().material = mat;
             Mesh mesh = go.GetComponent<MeshFilter>().mesh;
             float xPos = ((float)x) / (width - 1);
@@ -52,6 +57,7 @@ public class SlabController : MonoBehaviour {
             mesh.UploadMeshData(false);
             slab.quads[x] = mesh;
             go.GetComponent<MeshFilter>().mesh = mesh;
+            slab.gos[x] = go;
         }
         BoxCollider bc = parent.AddComponent<BoxCollider>();
 
@@ -59,10 +65,43 @@ public class SlabController : MonoBehaviour {
     }
     public static void FinalizeSlabs() {
         hasFinished = true;
-        for(int x = 1; x < slabs.Count-1; x++) {
+        for(int s = 0; s < slabs.Count-1; s++) {
 
+            float tempT = (slabs[s].t + slabs[s + 1].t) * 0.5f;
+            Quaternion midRot = Spline.instance.EvaluateRotation(tempT);
+            Vector3 midPos = Spline.instance.EvaluatePosition(tempT);
+            Vector3 midLeft = midPos + midRot * -Vector3.right * ((float)width) * 0.5f;
+            Vector3 midRight = midPos + midRot * Vector3.right * ((float)width) * 0.5f;
+            float valueStep = 1f / ((float)width);
+            for(int q = 0; q < slabs[s].quads.Length; q++) {
+
+                Vector3 currentPoint = Vector3.Lerp(slabs[s].fl, slabs[s].fr, valueStep * q);
+                Vector3 deltaPos = Vector3.Lerp(midLeft, midRight, valueStep * q)-currentPoint;
+                List<Vector3> tempVerts=new List<Vector3>();
+                slabs[s].quads[q].GetVertices(tempVerts);
+                tempVerts[3] += slabs[s].gos[q].transform.InverseTransformVector(deltaPos);
+                currentPoint = Vector3.Lerp(slabs[s].fl, slabs[s].fr, valueStep * (q+1));
+                deltaPos = Vector3.Lerp(midLeft, midRight, valueStep * (q+1)) - currentPoint;
+                tempVerts[0] += slabs[s].gos[q].transform.InverseTransformVector(deltaPos);
+                slabs[s].quads[q].SetVertices(tempVerts);
+                slabs[s].quads[q].UploadMeshData(false);
+
+                
+
+                currentPoint = Vector3.Lerp(slabs[s+1].bl, slabs[s+1].br, valueStep * q);
+                deltaPos = Vector3.Lerp(midLeft, midRight, valueStep * q) - currentPoint;
+                tempVerts = new List<Vector3>();
+                slabs[s+1].quads[q].GetVertices(tempVerts);
+                tempVerts[2] += slabs[s+1].gos[q].transform.InverseTransformVector(deltaPos);
+                currentPoint = Vector3.Lerp(slabs[s+1].bl, slabs[s+1].br, valueStep * (q + 1));
+                deltaPos = Vector3.Lerp(midLeft, midRight, valueStep * (q + 1)) - currentPoint;
+                tempVerts[1] += slabs[s+1].gos[q].transform.InverseTransformVector(deltaPos);
+                slabs[s+1].quads[q].SetVertices(tempVerts);
+                slabs[s+1].quads[q].UploadMeshData(false);
+            }
         }
     }
+    #region Edge Checks
     public Vector3 fl {
         get {
             return transform.position +
@@ -91,13 +130,5 @@ public class SlabController : MonoBehaviour {
                 transform.right * ((float)width) * 0.5f;
         }
     }
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    #endregion
 }

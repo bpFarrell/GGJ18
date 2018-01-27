@@ -17,6 +17,7 @@ namespace SplineLogic
 {
     public class Spline : MonoBehaviour
     {
+        public static Spline instance;
         public List<SplineNode> nodes = new List<SplineNode>();
         private GameObject _hiddenContainer;
         private GameObject hiddenContainer
@@ -52,8 +53,9 @@ namespace SplineLogic
 
         public float handleSize = 0.3f;
 
-        private void Start()
+        private void Awake()
         {
+            instance = this;
             Init();
         }
 
@@ -66,14 +68,24 @@ namespace SplineLogic
         {
             if (NodesCount == 0) AddNode();
 
-            AddNode();
+            AddCurve(nodes.Last().transform.position + (Vector3.forward * handleSize * 3), Quaternion.identity, 1f);
+        }
+
+        public void AddCurve(Vector3 pos, Quaternion rot, float zScale)
+        {
+            AddNode(pos, rot, zScale);
         }
 
         private void AddNode()
         {
+            if (NodesCount == 0) AddNode( transform.position , transform.rotation, transform.localScale.z);
+        }
+        private void AddNode(Vector3 pos, Quaternion rot, float zScale)
+        {
             GameObject go = new GameObject("Node");
-            if (NodesCount > 0) go.transform.position = nodes.Last().transform.position + (Vector3.forward * handleSize*3);
-            else go.transform.position = transform.position;
+            go.transform.position = pos;
+            go.transform.rotation = rot;
+            go.transform.localScale = new Vector3(1, 1, zScale);
             go.transform.parent = hiddenContainer.transform;
             SplineNode script = go.AddComponent<SplineNode>();
             script.size = handleSize;
