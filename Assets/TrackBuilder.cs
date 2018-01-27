@@ -42,6 +42,7 @@ public class TrackBuilder : MonoBehaviour {
                 SlabController.SpawnSlab(counterPoint, rotation, counter);
             }
         }
+        SlabController.FinalizeSlabs();
     }
 
     private void CreateTrackNodes()
