@@ -15,6 +15,8 @@ using UnityEngine;
 public class TrackBuilder : MonoBehaviour {
 
     public Spline spline;
+    public bool generationEnabled = false;
+    public int length;
     public float stepSize = 0.001f;
 	// Use this for initialization
 	void Start () {
@@ -25,6 +27,8 @@ public class TrackBuilder : MonoBehaviour {
 
     private void SpawnSlabs()
     {
+        SlabController.SpawnSlab(spline.nodes[0].transform.position, spline.nodes[0].transform.rotation, 0);
+
         float deltaDistance = 0f;
         for (float counter = 0; counter <= spline.numberOfCurves; counter += stepSize)
         {
@@ -34,8 +38,6 @@ public class TrackBuilder : MonoBehaviour {
             deltaDistance += distanceBetweenPoints;
             if(deltaDistance >= 1f)
             {
-
-
                 Quaternion rotation = spline.EvaluateRotation(counter);
 
                 deltaDistance -= 1f;
@@ -46,6 +48,13 @@ public class TrackBuilder : MonoBehaviour {
 
     private void CreateTrackNodes()
     {
-        // hand built for the moment
+        CreateTrackNode(transform.position, Quaternion.identity, 1f, length);
+    }
+    private void CreateTrackNode(Vector3 lastPos, Quaternion lastRot, float lastZScale, int depth )
+    {
+        spline.AddCurve(lastPos, lastRot, lastZScale);
+        if (depth <= 0) return;
+        Vector3 offset = Vector3.forward * 9;
+        CreateTrackNode(lastPos + offset, Quaternion.identity, 1f, --depth);
     }
 }
