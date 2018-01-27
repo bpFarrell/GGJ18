@@ -18,7 +18,7 @@ namespace SplineLogic
         public bool debug;
         SerializedProperty nodes;
         SerializedProperty handleSize;
-        SerializedProperty hiddenContainer;
+        //SerializedProperty hiddenContainer;
         SerializedProperty segments;
         SerializedProperty debugNodeLine;
         SerializedProperty debugPathLine;
@@ -27,7 +27,7 @@ namespace SplineLogic
         {
             nodes = serializedObject.FindProperty("nodes");
             handleSize = serializedObject.FindProperty("handleSize");
-            hiddenContainer = serializedObject.FindProperty("hiddenContainer");
+            //hiddenContainer = serializedObject.FindProperty("hiddenContainer");
             segments = serializedObject.FindProperty("segments");
             debugNodeLine = serializedObject.FindProperty("debugNodeLine");
             debugPathLine = serializedObject.FindProperty("debugPathLine");
@@ -37,7 +37,7 @@ namespace SplineLogic
             serializedObject.Update();
             EditorGUILayout.PropertyField(nodes);
             EditorGUILayout.PropertyField(handleSize);
-            EditorGUILayout.PropertyField(hiddenContainer);
+            //EditorGUILayout.PropertyField(hiddenContainer);
             EditorGUILayout.PropertyField(segments);
             EditorGUILayout.PropertyField(debugNodeLine);
             EditorGUILayout.PropertyField(debugPathLine);

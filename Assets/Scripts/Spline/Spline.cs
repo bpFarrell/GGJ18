@@ -18,7 +18,20 @@ namespace SplineLogic
     public class Spline : MonoBehaviour
     {
         public List<SplineNode> nodes = new List<SplineNode>();
-        public GameObject hiddenContainer;
+        private GameObject _hiddenContainer;
+        private GameObject hiddenContainer
+        {
+            get
+            {
+                if (_hiddenContainer != null) return _hiddenContainer;
+                else
+                {
+                    _hiddenContainer = new GameObject("Container");
+                    _hiddenContainer.transform.parent = transform;
+                }
+                return _hiddenContainer;
+            }
+        }
         public int segments = 6;
         public int NodesCount
         {
@@ -58,7 +71,7 @@ namespace SplineLogic
         private void AddNode()
         {
             GameObject go = new GameObject("Node");
-            if (NodesCount > 0) go.transform.position = nodes.Last().transform.position + (Vector3.left * handleSize*3);
+            if (NodesCount > 0) go.transform.position = nodes.Last().transform.position + (Vector3.forward * handleSize*3);
             else go.transform.position = transform.position;
             go.transform.parent = hiddenContainer.transform;
             SplineNode script = go.AddComponent<SplineNode>();

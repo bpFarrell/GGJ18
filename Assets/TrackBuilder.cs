@@ -15,7 +15,7 @@ using UnityEngine;
 public class TrackBuilder : MonoBehaviour {
 
     public Spline spline;
-    public float stepSize = 0.01f;
+    public float stepSize = 0.001f;
 	// Use this for initialization
 	void Start () {
         CreateTrackNodes();
