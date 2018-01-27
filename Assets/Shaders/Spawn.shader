@@ -4,6 +4,8 @@
 	{
 		_MainTex ("Texture", 2D) = "white" {}
 		_Location("Location",Float)=0
+		[HDR]
+		_Color("Color",Color) = (1,1,1,1)
 	}
 	SubShader
 	{
@@ -25,6 +27,7 @@
 				float4 vertex : POSITION;
 				float2 uv : TEXCOORD0;
 				float2 uv2 : TEXCOORD2;
+				float3 clr : COLOR;
 			};
 
 			struct v2f
@@ -37,6 +40,7 @@
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 			float _Location;
+			float4 _Color;
 			v2f vert (appdata v)
 			{
 				v2f o;
@@ -48,9 +52,11 @@
 					*/
 				float xpos = abs(v.uv2.x * 2 - 1)*0.5;
 				float dist = v.uv2.y+xpos-_Location;//length(worldPos);
-				float t = saturate(1 - (dist*0.6 - 3));
+				float t = saturate(1 - (dist*0.2 - 2));
+				v.vertex.xyz += v.clr *(1 - t)*5.;
 				v.vertex *= t;
 				v.vertex.z -= 1 - t*2;
+
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				UNITY_TRANSFER_FOG(o,o.vertex);
@@ -66,7 +72,7 @@
 				float sizeL = 0.05;
 				float sizeH = 0.95;
 				if (i.uv.x > 0.95 || i.uv.y > 0.95 || i.uv.x < sizeL || i.uv.y < sizeL) {
-					return fixed4(.1, .1, 1, 1);
+					return _Color;
 				}
 				return fixed4(0, 0, 0, 1);
 			}

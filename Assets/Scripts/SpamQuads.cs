@@ -20,11 +20,18 @@ public class SpamQuads : MonoBehaviour {
                 go.GetComponent<MeshRenderer>().material = mat;
                 Mesh mesh = go.GetComponent<MeshFilter>().mesh;
                 float xPos = ((float)x) / (width-1);
+                Color[] clrs = new Color[4];
                 for (int uv = 0; uv < 4; uv++) {
                     pos[uv].x = xPos;
+                    Color clr = new Color(
+                        Random.Range(-1f, 1f),
+                        Random.Range(-1f, 1f),
+                        Random.Range(-1f, 1f));
+                    clrs[uv] = clr;
                 }
+                mesh.colors = clrs;
                 mesh.uv2 = pos;
-                mesh.UploadMeshData(true);
+                mesh.UploadMeshData(false);
                 go.GetComponent<MeshFilter>().mesh = mesh;
                 go.transform.SetParent(parent.transform);
             }

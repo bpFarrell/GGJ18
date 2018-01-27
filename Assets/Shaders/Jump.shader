@@ -49,7 +49,7 @@
 				o.vertex = UnityObjectToClipPos(lerp(ball,vert,_Offset));
 
 				o.vertex = UnityObjectToClipPos(vert + v.normal*_Offset);*/
-				o.normal = UnityObjectToClipPos(v.normal);
+				o.normal = normalize(UnityObjectToClipPos(v.normal));
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				UNITY_TRANSFER_FOG(o,o.vertex);
 				return o;
@@ -61,7 +61,7 @@
 				fixed4 col = tex2D(_MainTex, i.uv);
 				// apply fog
 				UNITY_APPLY_FOG(i.fogCoord, col);
-				return fixed4(i.normal*0.5+0.5,1);
+				return fixed4((i.normal*0.5+0.5)*1.8,1);
 			}
 			ENDCG
 		}
