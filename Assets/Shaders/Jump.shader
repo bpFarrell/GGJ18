@@ -32,6 +32,7 @@
 				float2 uv : TEXCOORD0;
 				UNITY_FOG_COORDS(1)
 				float4 vertex : SV_POSITION;
+				float3 normal : TEXCOORD1;
 			};
 
 			sampler2D _MainTex;
@@ -42,9 +43,13 @@
 				v2f o;
 				float4 ball = float4(normalize(v.vertex.xyz),0);
 				float4 vert = v.vertex;
+				vert.y += abs(sin(vert.z*0.3+_Time.x*80)); 
+				o.vertex = UnityObjectToClipPos(vert);
+/*
 				o.vertex = UnityObjectToClipPos(lerp(ball,vert,_Offset));
 
-				o.vertex = UnityObjectToClipPos(vert + v.normal*_Offset);
+				o.vertex = UnityObjectToClipPos(vert + v.normal*_Offset);*/
+				o.normal = UnityObjectToClipPos(v.normal);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				UNITY_TRANSFER_FOG(o,o.vertex);
 				return o;
@@ -56,7 +61,7 @@
 				fixed4 col = tex2D(_MainTex, i.uv);
 				// apply fog
 				UNITY_APPLY_FOG(i.fogCoord, col);
-				return col;
+				return fixed4(i.normal*0.5+0.5,1);
 			}
 			ENDCG
 		}
