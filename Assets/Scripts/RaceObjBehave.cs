@@ -1,4 +1,4 @@
-﻿#define CAN_FALL
+﻿//#define CAN_FALL
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,8 +23,12 @@ public class RaceObjBehave : MonoBehaviour {
         falling
     }
     public State state;
+    public float xbox;
 	void Update () {
-        
+        xbox = Input.GetAxis("Horizontal");
+        if (Input.GetButtonDown("Fire1")) {
+            Debug.Log("pew");
+        }
         Vector3 direction = transform.forward * Time.deltaTime * speed;
         Vector3 up = transform.up;
         Ray ray = new Ray(transform.position + (transform.up * 10) + transform.forward*racer.transform.localScale.z*2, -transform.up);
@@ -35,27 +39,46 @@ public class RaceObjBehave : MonoBehaviour {
 #if CAN_FALL
         if (Physics.Raycast(ray, out hitInfo)||Physics.Raycast(backRay))
         {
-            if (hitInfo.transform != null)
-            {
+            
 #else
         if (Physics.Raycast(ray, out hitInfo) || Physics.Raycast(backRay, out hitInfo))
         {
 #endif
-            if (hitInfo.transform.gameObject.layer == 4)
+            if (hitInfo.transform != null)
+            {
+                if (hitInfo.transform.gameObject.layer == 4)
                 {
                     state = State.onTrack;
-                    if (Input.GetKey(KeyCode.A))
+                    if (Input.GetKey(KeyCode.A)|| Input.GetAxis("Horizontal") < -.9f)
                     {
                         transform.Rotate(Vector3.up * -100 * Time.deltaTime);
                     }
-                    if (Input.GetKey(KeyCode.D))
+                    if (Input.GetKey(KeyCode.D) || Input.GetAxis("Horizontal") > .9f)
                     {
                         transform.Rotate(Vector3.up * 100 * Time.deltaTime);
+                    }
+                    if (Input.GetKey(KeyCode.W) || Input.GetAxis("Vertical") < -.9f)
+                    {
+                        if (speed > -3)
+                        {
+                            speed -= Time.deltaTime;
+                        }
+                    }
+                    if (Input.GetKey(KeyCode.W) || Input.GetAxis("Vertical") > .9f)
+                    {
+                        if (speed < 30)
+                        {
+                            speed += Time.deltaTime;
+                        }
+                    }
+                    else {
+                        if (speed > 1) speed -= Time.deltaTime;
                     }
                     Vector3 point = hitInfo.point;
                     transform.position = Vector3.Lerp(transform.position, point, Time.deltaTime * speed);
                     up = hitInfo.normal;
                 }
+
             }
         }
         else {
