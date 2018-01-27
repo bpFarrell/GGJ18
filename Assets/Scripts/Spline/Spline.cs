@@ -17,6 +17,7 @@ namespace SplineLogic
 {
     public class Spline : MonoBehaviour
     {
+        public static Spline instance;
         public List<SplineNode> nodes = new List<SplineNode>();
         private GameObject _hiddenContainer;
         private GameObject hiddenContainer
@@ -52,8 +53,9 @@ namespace SplineLogic
 
         public float handleSize = 0.3f;
 
-        private void Start()
+        private void Awake()
         {
+            instance = this;
             Init();
         }
 
