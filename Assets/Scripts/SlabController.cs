@@ -12,7 +12,7 @@ public class SlabController : MonoBehaviour {
         GameObject parent = new GameObject("Slab: " + t);
         parent.transform.position = pos;
         parent.transform.eulerAngles = rot;
-
+        parent.layer = 4;
         Vector2[] lanePos = new Vector2[4];
         for (int uv = 0; uv < 4; uv++) {
             lanePos[uv] = new Vector2(t, t);
