@@ -6,6 +6,7 @@ using UnityEngine;
 public class RaceObjBehave : MonoBehaviour {
     CharacterAnimator charAnimator;
     public GameObject racer;
+    Material trackMaterial;
     public float speed = 10;
     public float accelorator = 2;
     void AdjustRacerLocalPos() {
@@ -18,6 +19,7 @@ public class RaceObjBehave : MonoBehaviour {
     }
 	void Start () {
         charAnimator = GetComponentInChildren<CharacterAnimator>();
+        trackMaterial = Resources.Load("Unlit_Spawn") as Material;
     //    AdjustRacerLocalPos();
 	}
     public enum State {
@@ -30,7 +32,7 @@ public class RaceObjBehave : MonoBehaviour {
     public float xbox;
     public float debugFakeHeight;
 	void Update () {
-        xbox = Input.GetAxis("Horizontal");
+        trackMaterial.SetFloat("_Location", transform.position.magnitude + 5);
         charAnimator.speed = speed*.25f;
         Vector3 direction = transform.forward * Time.deltaTime * speed;
         Vector3 up = transform.up;
