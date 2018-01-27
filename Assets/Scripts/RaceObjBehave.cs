@@ -1,11 +1,13 @@
-﻿//#define CAN_FALL
+﻿#define CAN_FALL
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RaceObjBehave : MonoBehaviour {
+    CharacterAnimator charAnimator;
     public GameObject racer;
     public float speed = 10;
+    public float accelorator = 2;
     void AdjustRacerLocalPos() {
         MeshRenderer[] meshRenders = racer.GetComponentsInChildren<MeshRenderer>();
         float y = float.MinValue;
@@ -15,20 +17,21 @@ public class RaceObjBehave : MonoBehaviour {
         racer.transform.localPosition = transform.up * (y * .5f);
     }
 	void Start () {
+        charAnimator = GetComponentInChildren<CharacterAnimator>();
     //    AdjustRacerLocalPos();
 	}
     public enum State {
         idle,
         onTrack,
+        jump,
         falling
     }
     public State state;
     public float xbox;
+    public float debugFakeHeight;
 	void Update () {
         xbox = Input.GetAxis("Horizontal");
-        if (Input.GetButtonDown("Fire1")) {
-            Debug.Log("pew");
-        }
+        charAnimator.speed = speed*.25f;
         Vector3 direction = transform.forward * Time.deltaTime * speed;
         Vector3 up = transform.up;
         Ray ray = new Ray(transform.position + (transform.up * 10) + transform.forward*racer.transform.localScale.z*2, -transform.up);
@@ -48,7 +51,16 @@ public class RaceObjBehave : MonoBehaviour {
             {
                 if (hitInfo.transform.gameObject.layer == 4)
                 {
+                    Vector3 point = hitInfo.point;
+                    debugFakeHeight = (point-transform.position).magnitude;
                     state = State.onTrack;
+                    if (Input.GetButtonDown("Fire1"))
+                    {
+                        if (state != State.jump)
+                        {
+                            direction += transform.up * 5;
+                        }
+                    }
                     if (Input.GetKey(KeyCode.A)|| Input.GetAxis("Horizontal") < -.9f)
                     {
                         transform.Rotate(Vector3.up * -100 * Time.deltaTime);
@@ -68,13 +80,13 @@ public class RaceObjBehave : MonoBehaviour {
                     {
                         if (speed < 30)
                         {
-                            speed += Time.deltaTime;
+                            speed += Time.deltaTime * accelorator;
                         }
                     }
                     else {
                         if (speed > 1) speed -= Time.deltaTime;
                     }
-                    Vector3 point = hitInfo.point;
+                 //   Vector3 point = hitInfo.point;
                     transform.position = Vector3.Lerp(transform.position, point, Time.deltaTime * speed);
                     up = hitInfo.normal;
                 }
@@ -84,6 +96,7 @@ public class RaceObjBehave : MonoBehaviour {
         else {
             state = State.falling;
             direction += transform.up * -Time.deltaTime * 9.8f;
+            charAnimator.speed = 0;
         }
         
         transform.position += direction;
