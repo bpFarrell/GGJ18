@@ -12,6 +12,7 @@ public class CharacterAnimator : MonoBehaviour {
     public float animSpeed;
     public float jumping;
     public float speed;
+    private float hornScale=2;
 	// Use this for initialization
 	void Awake () {
         sheepMat = sheep.GetComponent<MeshRenderer>().material;
@@ -29,6 +30,7 @@ public class CharacterAnimator : MonoBehaviour {
         animTime += Time.deltaTime*animSpeed;
         sheepMat.SetFloat("_Offset", animTime);
         sheepMat.SetFloat("_Jumping", jumping);
+        hornsMat.SetFloat("_T", speed * hornScale);
         Vector3 tempVec = horns.transform.localPosition;
         tempVec.y = GetYPos(animTime, jumping);
         horns.transform.localPosition = tempVec;
