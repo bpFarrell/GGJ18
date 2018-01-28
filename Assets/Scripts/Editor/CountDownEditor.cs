@@ -32,7 +32,7 @@ public class CountDownEditor : Editor {
             // Function Testing
             if (GUILayout.Button("Reset and Start"))
             {
-                (target as CountDown).SetAndCount();
+                CountDown.SetAndCount();
             }
             // Variable Display
             EditorGUI.BeginDisabledGroup(true);

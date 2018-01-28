@@ -18,8 +18,9 @@ public class ControllerManager : MonoBehaviour {
 
     List<TrackMagnet> players       = new List<TrackMagnet>();
     public List<int> controllerIDs  = new List<int>();
-    float setupCountdown = 20;
+    float setupCountdown = 5;
     bool beginCountdown;
+    bool gameBegan;
     public void AddPlayer(int id, GameObject playerSet) {
         TrackMagnet trackMagnet = playerSet.GetComponentInChildren<TrackMagnet>();
         trackMagnet.playerID = id;
@@ -30,6 +31,8 @@ public class ControllerManager : MonoBehaviour {
     public void Update()
     {
         if (!ReInput.isReady) return;
+        if (gameBegan) return;
+
         for (int i = 0; i < 4; i++)
         {
             if (ReInput.players.GetPlayer(i) != null && ReInput.players.GetPlayer(i).GetAnyButtonDown())
@@ -46,13 +49,14 @@ public class ControllerManager : MonoBehaviour {
             setupCountdown -= Time.deltaTime;
             if (setupCountdown <= 0.1f) {
                 CameraMaster.instance.Initialize(controllerIDs);
-            //    CountDown.ins
+                CountDown.SetAndCount();
+                gameBegan = true;
             }
         }
         if (controllerIDs.Count == 0) {
             beginCountdown = false;
-            setupCountdown = 20;
+            setupCountdown = 5;
         }
-        
+        Debug.Log(setupCountdown);
     }
 }
