@@ -16,11 +16,14 @@ public class ControllerManager : MonoBehaviour {
         Debug.Log(instance);
     }
 
-    List<TrackMagnet> players       = new List<TrackMagnet>();
-    public List<int> controllerIDs  = new List<int>();
+    List<TrackMagnet> players = new List<TrackMagnet>();
+    public List<int> controllerIDs = new List<int>();
     float setupCountdown = 5;
     bool beginCountdown;
-    bool gameBegan;
+    public bool gameBegan;
+    public delegate void ControllerSetupComplete();
+    public ControllerSetupComplete onControllSetupComplete;
+
     public void AddPlayer(int id, GameObject playerSet) {
         TrackMagnet trackMagnet = playerSet.GetComponentInChildren<TrackMagnet>();
         trackMagnet.playerID = id;
@@ -50,6 +53,7 @@ public class ControllerManager : MonoBehaviour {
             if (setupCountdown <= 0.1f) {
                 CameraMaster.instance.Initialize(controllerIDs);
                 CountDown.SetAndCount();
+                if (onControllSetupComplete != null) onControllSetupComplete();
                 gameBegan = true;
             }
         }
