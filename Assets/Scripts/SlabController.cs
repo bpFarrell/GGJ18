@@ -5,6 +5,7 @@ using SplineLogic;
 public class SlabController : MonoBehaviour {
     public static int width = 10;
     private float t;
+    private float internalT;
     private Mesh[] quads;
     private GameObject[] gos;
     private static Material _mat;
@@ -25,6 +26,12 @@ public class SlabController : MonoBehaviour {
         GameObject parent = new GameObject("Slab: " + t);
         parent.transform.position = pos;
         SlabController slab = parent.AddComponent<SlabController>();
+        if (slabs.Count == 0) {
+            slab.internalT = 0;
+        } else {
+            SlabController prevSlab = slabs[slabs.Count - 1];
+            slab.internalT = Vector3.Distance(prevSlab.transform.position, pos) + prevSlab.internalT;
+        }
         slabs.Add(slab);
         slab.t = t;
         parent.transform.rotation = rot;
@@ -33,7 +40,7 @@ public class SlabController : MonoBehaviour {
         slab.gos = new GameObject[width];
         Vector2[] lanePos = new Vector2[4];
         for (int uv = 0; uv < 4; uv++) {
-            lanePos[uv] = new Vector2(t, t);
+            lanePos[uv] = new Vector2(slab.internalT, slab.internalT);
         }
         for (int x = 0; x < width; x++) {
             GameObject go = Instantiate(customQuad);//GameObject.CreatePrimitive(PrimitiveType.Quad);
