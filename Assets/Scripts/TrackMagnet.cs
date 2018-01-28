@@ -6,8 +6,10 @@ using Rewired;
 
 public class TrackMagnet : MonoBehaviour
 {
-    public int playerID;
+    public int playerID     = -1;
+    public int controllerID = -1;
     public bool init;
+    public bool canStart;
     public enum StartupState {
         idle,
         ready
@@ -43,18 +45,27 @@ public class TrackMagnet : MonoBehaviour
 
     Player playerController;
     void Controller() {
-        axisHorizontal  = ReInput.players.GetPlayer(playerID).GetAxis("AxisHorizontal");//Input.GetAxis("Horizontal");
-        axisVertical    = ReInput.players.GetPlayer(playerID).GetAxis("AxisVertical"); //Input.GetAxis("Vertical");
-        jump            = ReInput.players.GetPlayer(playerID).GetButtonDown("Action2");//Input.GetButtonDown("Fire1");
+        axisHorizontal  = ReInput.players.GetPlayer(controllerID).GetAxis("AxisHorizontal");//Input.GetAxis("Horizontal");
+        axisVertical    = ReInput.players.GetPlayer(controllerID).GetAxis("AxisVertical"); //Input.GetAxis("Vertical");
+        jump            = ReInput.players.GetPlayer(controllerID).GetButtonDown("Action2");//Input.GetButtonDown("Fire1");
         if (playerID == 0) {
             axisHorizontal  = Input.GetAxis("Horizontal");
             axisVertical    = Input.GetAxis("Vertical");
             jump            = Input.GetButtonDown("Fire1");
         }
     }
+    [System.Obsolete]
     public void AssignController(int id)
     {
         playerController = ReInput.players.GetPlayer(id);
+    }
+
+    private void Awake()
+    {
+        CountDown.OnGo += OnGo;
+    }
+    public void OnGo() {
+        canStart = true;
     }
     void Update()
     {
@@ -62,7 +73,7 @@ public class TrackMagnet : MonoBehaviour
 
         GoalLogic.instance.CheckDistance(transform.position, this);
         // Quick hack to wait for 3..2..1.. ready
-        if (jump)
+        if (canStart && jump)
         {
             if (startupState == StartupState.idle) startupState = StartupState.ready;
         }
@@ -169,7 +180,7 @@ public class TrackMagnet : MonoBehaviour
                 transform.position = fallPos;
                 transform.forward = fallDir;
                 fallTime = float.MaxValue;
-                currentSpeed = 0;
+                currentSpeed = 2;
             }
             
         }
