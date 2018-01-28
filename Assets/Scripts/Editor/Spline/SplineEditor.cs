@@ -15,7 +15,7 @@ namespace SplineLogic
 { 
     [CustomEditor(typeof(Spline))]
     public class SplineEditor : Editor {
-        public bool debug;
+        public bool debug = true;
         SerializedProperty nodes;
         SerializedProperty handleSize;
         //SerializedProperty hiddenContainer;
@@ -61,6 +61,14 @@ namespace SplineLogic
                 if (GUILayout.Button("Hide Nodes"))
                 {
                     (target as Spline).HideContainer(true);
+                }
+                if (GUILayout.Button("Rebuild Node List"))
+                {
+                    (target as Spline).RebuildNodes();
+                }
+                if (GUILayout.Button("Clear Nodes"))
+                {
+                    (target as Spline).ClearNodes();
                 }
                 // Variable Display
                 EditorGUI.BeginDisabledGroup(true);

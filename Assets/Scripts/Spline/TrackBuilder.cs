@@ -26,7 +26,7 @@ public class TrackBuilder : MonoBehaviour {
         SpawnSlabs();
 	}
 
-    private void SpawnSlabs()
+    public void SpawnSlabs()
     {
         SlabController.SpawnSlab(spline.nodes[0].transform.position, spline.nodes[0].transform.rotation, 0);
 
@@ -48,14 +48,16 @@ public class TrackBuilder : MonoBehaviour {
         SlabController.FinalizeSlabs();
     }
 
-    private void CreateTrackNodes()
+    public void CreateTrackNodes()
     {
+        spline.ClearNodes();
         CreateTrackNode(transform.position, Quaternion.identity, 1f, length);
     }
     private void CreateTrackNode(Vector3 lastPos, Quaternion lastRot, float lastZScale, int depth )
     {
         spline.AddCurve(lastPos, lastRot, lastZScale);
         if (depth <= 0) return;
+        
         Vector3 offset = Vector3.forward * 9;
         CreateTrackNode(lastPos + offset, Quaternion.identity, 1f, --depth);
     }
