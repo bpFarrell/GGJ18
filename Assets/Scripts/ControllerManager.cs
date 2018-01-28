@@ -16,9 +16,10 @@ public class ControllerManager : MonoBehaviour {
         Debug.Log(instance);
     }
 
-    List<TrackMagnet> players   = new List<TrackMagnet>();
-    public List<int> controllerIDs      = new List<int>();
-
+    List<TrackMagnet> players       = new List<TrackMagnet>();
+    public List<int> controllerIDs  = new List<int>();
+    float setupCountdown = 20;
+    bool beginCountdown;
     public void AddPlayer(int id, GameObject playerSet) {
         TrackMagnet trackMagnet = playerSet.GetComponentInChildren<TrackMagnet>();
         trackMagnet.playerID = id;
@@ -33,11 +34,16 @@ public class ControllerManager : MonoBehaviour {
         {
             if (ReInput.players.GetPlayer(i) != null && ReInput.players.GetPlayer(i).GetAnyButtonDown())
             {
+                beginCountdown = true;
                 if (controllerIDs.Contains(i)) controllerIDs.Remove(i);
                 else {
                     controllerIDs.Add(i);
                 }
             }
+        }
+        if (controllerIDs.Count == 0) {
+            beginCountdown = false;
+            setupCountdown = 20;
         }
         
     }
