@@ -55,7 +55,7 @@
 				v2f o;
 				float4 ball = float4(normalize(v.vertex.xyz),0);
 				float4 vert = v.vertex;
-				float leg = saturate(0.8-vert.y)*saturate(_Jumping)*0.7	;
+				float leg = saturate(1.2-vert.y)*saturate(_Jumping)*0.7	;
 				float lOff = _Offset+3.141529*0.5;
 				float speed = 1;
 				vert.y += leg*abs(cos(lOff * speed + vert.z))*0.8;
