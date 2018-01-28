@@ -27,9 +27,12 @@ namespace SplineLogic
                 if (_hiddenContainer != null) return _hiddenContainer;
                 else
                 {
-                    _hiddenContainer = new GameObject("Container");
-                    _hiddenContainer.transform.parent = transform;
-
+                    _hiddenContainer = transform.Find("Container").gameObject;
+                    if (_hiddenContainer == null)
+                    {
+                        _hiddenContainer = new GameObject("Container");
+                        _hiddenContainer.transform.parent = transform;
+                    }
                 }
                 return _hiddenContainer;
             }
@@ -56,12 +59,12 @@ namespace SplineLogic
         private void Awake()
         {
             instance = this;
-            Init();
+            RebuildNodes();
         }
 
-        private void Init()
+        public void RebuildNodes()
         {
-            nodes = GetComponentsInChildren<SplineNode>().ToList();
+            nodes = hiddenContainer.GetComponentsInChildren<SplineNode>().ToList();
         }
 
         public void AddCurve()
@@ -107,9 +110,17 @@ namespace SplineLogic
             DestroyImmediate(go);
         }
 
+        public void ClearNodes()
+        {
+            int count = NodesCount;
+            for (int i = 0; i < count; i++)
+            {
+                RemoveNode();
+            }
+        }
         private void OnDrawGizmos()
         {
-            if (nodes == null) Init();
+            if (nodes == null) RebuildNodes();
             if (NodesCount <= 1) return;
             if (debugNodeLine)
             {
