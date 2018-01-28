@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class CountDown : MonoBehaviour {
+    public static CountDown instance;
     enum CountDownState
     {
         OFF,
@@ -41,15 +42,16 @@ public class CountDown : MonoBehaviour {
     {
         img = GetComponent<Image>();
         audioSource = GetComponent<AudioSource>();
+        instance = this;
         //SetAndCount();
     }
-    public void SetAndCount()
+    public static void SetAndCount()
     {
-        index = 0;
-        t = 0f;
-        img.rectTransform.sizeDelta = new Vector2(256, 256);
-        state = CountDownState.DELAY;
-        img.sprite = sprites[index];
+        instance.index = 0;
+        instance.t = 0f;
+        instance.img.rectTransform.sizeDelta = new Vector2(256, 256);
+        instance.state = CountDownState.DELAY;
+        instance.img.sprite = instance.sprites[instance.index];
         
     }
     private void FixedUpdate()
