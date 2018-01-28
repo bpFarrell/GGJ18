@@ -8,7 +8,7 @@ public class GoalLogic : MonoBehaviour {
     public float bounceSpeed = 1;
     public static int[] finishOrder;
     public static GoalLogic instance;
-    public float scoreDistance = 20;
+    public float scoreDistance = 25;
     public delegate void StateChange();
     public static event StateChange OnLastFinish;
     bool idleFinish = false;
