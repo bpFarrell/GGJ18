@@ -34,7 +34,7 @@ public class RaceObjBehave : MonoBehaviour {
     public float debugFakeHeight;
     public bool grounded;
 	void Update () {
-        trackMaterial.SetFloat("_Location", transform.position.magnitude + 5);
+        //trackMaterial.SetFloat("_Location", transform.position.magnitude + 5);
         charAnimator.speed = speed*.25f;
         Vector3 direction = transform.forward * Time.deltaTime * speed;
         Vector3 up = transform.up;

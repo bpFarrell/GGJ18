@@ -11,6 +11,8 @@ public class GoalLogic : MonoBehaviour {
     public float scoreDistance = 10;
     public delegate void StateChange();
     public static event StateChange OnLastFinish;
+    bool idleFinish = false;
+    float finishTime;
     // Use this for initialization
     private void Awake() {
         instance = this;
@@ -41,24 +43,37 @@ public class GoalLogic : MonoBehaviour {
     void Update () {
         transform.position = startPos + Vector3.up * Mathf.Sin(Time.time*bounceSpeed);
         transform.Rotate(0 , 0, Time.deltaTime * spinSpeed);
+        CheckFinish();
 	}
+    void CheckFinish() {
+        if (idleFinish && Time.time > finishTime) {
+            idleFinish = false;
+            if (OnLastFinish != null) {
+                OnLastFinish();
+            }
+            Debug.Log("Reset the shit!");
+        }
+    }
     public void CheckDistance(Vector3 pos,TrackMagnet magnet) {
         if (Vector3.Distance(pos, transform.position) < scoreDistance) {
             for(int x = 0; x < finishOrder.Length; x++) {
                 if (finishOrder[x] == magnet.playerID) return;
                 if (finishOrder[x] == -1) {
                     finishOrder[x] = magnet.playerID;
+                    FinishMagnet(magnet);
                     if (x == finishOrder.Length - 1) {
-                        if (OnLastFinish != null) {
-                            OnLastFinish();
-                        }
-                        Debug.Log("Reset the shit!");
+                        idleFinish = true;
+                        finishTime = Time.time + 2;
                     }
                     break;
                 }
             }
-            magnet.trackingState = TrackMagnet.TrackingState.finished;
             Debug.Log("HIITTTTT!!!!");
         }
+    }
+    void FinishMagnet(TrackMagnet magnet) {
+        magnet.trackingState = TrackMagnet.TrackingState.finished;
+        CameraMove cm = CameraMaster.instance.playerCams[magnet.playerID].GetComponentInChildren<CameraMove>();
+        cm.racer = transform;
     }
 }
