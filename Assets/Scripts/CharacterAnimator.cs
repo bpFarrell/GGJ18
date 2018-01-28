@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CharacterAnimator : MonoBehaviour {
     public GameObject sheep;
+    public GameObject bow;
+    public GameObject eyes;
     public GameObject horns;
     Material sheepMat;
     Material hornsMat;
@@ -18,6 +20,8 @@ public class CharacterAnimator : MonoBehaviour {
         sheepMat = sheep.GetComponent<MeshRenderer>().material;
         sheepMat = new Material(sheepMat);
         sheep.GetComponent<MeshRenderer>().material = sheepMat;
+        bow.GetComponent<MeshRenderer>().material = sheepMat;
+        eyes.GetComponent<MeshRenderer>().material = sheepMat;
         hornsMat = horns.GetComponent<MeshRenderer>().material;
         hornsMat = new Material(hornsMat);
         horns.GetComponent<MeshRenderer>().material = hornsMat;
