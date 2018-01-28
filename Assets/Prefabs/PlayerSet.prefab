@@ -680,7 +680,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d04d029a80e92e48ac774bf1a9759fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rateToSpeed: 0.1
+  rateToSpeed: 0.2
   raceObjBehave: {fileID: 114327089203515310}
 --- !u!124 &124728026398660420
 Behaviour:
@@ -913,7 +913,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
