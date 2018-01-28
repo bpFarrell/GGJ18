@@ -23,6 +23,7 @@ public class MainMenuController : MonoBehaviour
         public ReadyDelegate OnReadyChanged;
         public void Input()
         {
+            
             isReady = !isReady;
             if (OnReadyChanged != null) OnReadyChanged(isReady);
         }
