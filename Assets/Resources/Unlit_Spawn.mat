@@ -23,6 +23,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Location: 41.3
+    - _Length: -10
+    - _Location: 53.114555
     m_Colors:
-    - _Color: {r: 0.23968661, g: 0.22429411, b: 1.271, a: 1}
+    - _Color: {r: 1.271, g: 0.028036792, b: 0.35705617, a: 1}
