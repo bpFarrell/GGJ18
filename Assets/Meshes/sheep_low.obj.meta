@@ -1,18 +1,36 @@
 fileFormatVersion: 2
-guid: 8c747fd3fb34a5e47a4550878ade909a
-timeCreated: 1517050366
+guid: 71d8c9df6700bcc44859f4d901a73e52
+timeCreated: 1517107159
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: Group9351
-    100002: //RootNode
-    400000: Group9351
-    400002: //RootNode
-    2100000: Group9351Mat
-    2300000: Group9351
-    3300000: Group9351
-    4300000: Group9351
+    100000: body_low
+    100002: bow_low
+    100004: eyes_low
+    100006: horns_low
+    100008: //RootNode
+    400000: body_low
+    400002: bow_low
+    400004: eyes_low
+    400006: horns_low
+    400008: //RootNode
+    2100000: body_lowMat
+    2100002: bow_lowMat
+    2100004: eyes_lowMat
+    2100006: horns_lowMat
+    2300000: body_low
+    2300002: bow_low
+    2300004: eyes_low
+    2300006: horns_low
+    3300000: body_low
+    3300002: bow_low
+    3300004: eyes_low
+    3300006: horns_low
+    4300000: body_low
+    4300002: bow_low
+    4300004: eyes_low
+    4300006: horns_low
   externalObjects: {}
   materials:
     importMaterials: 1

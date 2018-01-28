@@ -5,6 +5,9 @@ Shader "Unlit/GroundPlane"
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
+
+		[HDR]
+		_Color("Color",Color) = (0,1,0,1)
 	}
 	SubShader
 	{
@@ -37,7 +40,7 @@ Shader "Unlit/GroundPlane"
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
-			
+			float4 _Color;
 			v2f vert (appdata v)
 			{
 				v2f o;
@@ -53,7 +56,7 @@ Shader "Unlit/GroundPlane"
 				float2 newUV = fmod(i.worldPos.xz*0.1+1000,1.);
 				float t = newUV.x > 0.9 || newUV.y > 0.9;
 				float wave = sin(i.worldPos.x*0.1 + _Time.x * 60)*0.2+0.8;
-				fixed4 col = fixed4	(0.2, 0.2, 1.3, 1)*t*wave;
+				fixed4 col = _Color*t*wave;
 				return col;
 			}
 			ENDCG
