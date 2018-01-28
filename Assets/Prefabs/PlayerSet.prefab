@@ -574,10 +574,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74d5b8c63a9a0174c89a417a762adc84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  magnetPlayer: {fileID: 114327089203515310}
+  slabs: []
   distBack: 7
   distUp: 8
   racer: {fileID: 4201009711458372}
   speed: 7
+  prefDistance: 10
 --- !u!114 &114327089203515310
 MonoBehaviour:
   m_ObjectHideFlags: 1
