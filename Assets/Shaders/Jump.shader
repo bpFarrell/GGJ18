@@ -3,6 +3,8 @@
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
+		[HDR]
+		_Color ("Color",Color) = (0,1,0,1)
 		_Offset("Offset",Float) = 0
 		_Jumping("Jumping",Float) = 1
 		_Lean("Leaning",Float)=0
@@ -40,6 +42,7 @@
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 			float _Offset;
+			float4 _Color;
 			float _Jumping;
 			float _Lean;
 			v2f vert (appdata v)
@@ -50,10 +53,6 @@
 				vert.y += abs(sin(vert.z*0.3+_Offset))*_Jumping; 
 				vert.x += (vert.y)*_Lean;
 				o.vertex = UnityObjectToClipPos(vert);
-/*
-				o.vertex = UnityObjectToClipPos(lerp(ball,vert,_Offset));
-
-				o.vertex = UnityObjectToClipPos(vert + v.normal*_Offset);*/
 				o.normal = normalize(UnityObjectToClipPos(v.normal));
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				UNITY_TRANSFER_FOG(o,o.vertex);
@@ -62,11 +61,8 @@
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
-				// sample the texture
 				fixed4 col = tex2D(_MainTex, i.uv);
-				// apply fog
-				UNITY_APPLY_FOG(i.fogCoord, col);
-				return fixed4((i.normal*0.5+0.5),1);
+				return pow(abs(col.r*2-1),1.5)*_Color*(sin(_Time.x*100)*0.1+0.9);
 			}
 			ENDCG
 		}
