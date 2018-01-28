@@ -1,4 +1,4 @@
-﻿#define CAN_FALL
+﻿//#define CAN_FALL
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,6 +31,7 @@ public class RaceObjBehave : MonoBehaviour {
     public State state;
     public float xbox;
     public float debugFakeHeight;
+    public bool grounded;
 	void Update () {
         trackMaterial.SetFloat("_Location", transform.position.magnitude + 5);
         charAnimator.speed = speed*.25f;
@@ -38,9 +39,26 @@ public class RaceObjBehave : MonoBehaviour {
         Vector3 up = transform.up;
         Ray ray = new Ray(transform.position + (transform.up * 10) + transform.forward*racer.transform.localScale.z*2, -transform.up);
         Ray backRay = new Ray(transform.position + transform.up * 10 + transform.forward * racer.transform.localScale.z* - 1.5f, -transform.up);
+        
         RaycastHit hitInfo;
         Debug.DrawRay(ray.origin, ray.direction * 10,Color.green);
         Debug.DrawRay(backRay.origin, backRay.direction * 10,Color.yellow);
+        Ray groundRay = new Ray(transform.position+transform.up, transform.up * -2);
+        Debug.DrawRay(groundRay.origin, groundRay.direction * 2, Color.cyan);
+
+        RaycastHit groundHit;
+        if (Physics.Raycast(groundRay, 2f))
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                if (state != State.jump)
+                {
+                    direction += transform.up * 3;
+                }
+            }
+            grounded = true;
+        }
+        else grounded = false;
 #if CAN_FALL
         if (Physics.Raycast(ray, out hitInfo)||Physics.Raycast(backRay))
         {
@@ -56,13 +74,7 @@ public class RaceObjBehave : MonoBehaviour {
                     Vector3 point = hitInfo.point;
                     debugFakeHeight = (point-transform.position).magnitude;
                     state = State.onTrack;
-                    if (Input.GetButtonDown("Fire1"))
-                    {
-                        if (state != State.jump)
-                        {
-                            direction += transform.up * 5;
-                        }
-                    }
+                    
                     if (Input.GetKey(KeyCode.A)|| Input.GetAxis("Horizontal") < -.9f)
                     {
                         transform.Rotate(Vector3.up * -100 * Time.deltaTime);
