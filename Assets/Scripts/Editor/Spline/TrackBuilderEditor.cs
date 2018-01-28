@@ -46,7 +46,7 @@ public class TrackBuilderEditor : Editor {
             {
                 (target as TrackBuilder).SpawnSlabs();
             }
-            if (GUILayout.Button("Build Track"))
+            if (GUILayout.Button("Generate Track Nodes"))
             {
                 (target as TrackBuilder).CreateTrackNodes();
             }

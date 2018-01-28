@@ -5,7 +5,7 @@ using SplineLogic;
 public class SlabController : MonoBehaviour {
     public static int width = 10;
     private float t;
-    private float internalT;
+    public float internalT;
     private Mesh[] quads;
     private GameObject[] gos;
     private static Material _mat;

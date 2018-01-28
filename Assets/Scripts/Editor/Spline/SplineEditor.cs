@@ -35,7 +35,7 @@ namespace SplineLogic
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
-            EditorGUILayout.PropertyField(nodes);
+            EditorGUILayout.PropertyField(nodes, true);
             EditorGUILayout.PropertyField(handleSize);
             //EditorGUILayout.PropertyField(hiddenContainer);
             EditorGUILayout.PropertyField(segments);

@@ -20,11 +20,13 @@ public class CountDown : MonoBehaviour {
         PAUSE,
         EXIT
     }
-    private CountDownState state = CountDownState.OFF;
     public List<Sprite> sprites;
-    public float transitionSeconds = 1f;
-    public float pauseSeconds = .3f;
-    public float delayInSeconds = 1f;
+
+    private CountDownState state = CountDownState.OFF;
+    private AudioSource audioSource;
+    private float transitionSeconds = .218f;
+    private float pauseSeconds = .1f;
+    private float delayInSeconds = 0.5f;
 
     public delegate void onGoDelegate();
     public static onGoDelegate OnGo;
@@ -38,14 +40,17 @@ public class CountDown : MonoBehaviour {
     private void Start()
     {
         img = GetComponent<Image>();
-        SetAndCount();
+        audioSource = GetComponent<AudioSource>();
+        //SetAndCount();
     }
     public void SetAndCount()
     {
         index = 0;
         t = 0f;
+        img.rectTransform.sizeDelta = new Vector2(256, 256);
         state = CountDownState.DELAY;
         img.sprite = sprites[index];
+        
     }
     private void FixedUpdate()
     {
@@ -66,6 +71,10 @@ public class CountDown : MonoBehaviour {
                 transform.eulerAngles = Vector3.Lerp(closed, open, t);
                 if(t >= 1)
                 {
+                    if(index == 0)
+                    {
+                        audioSource.Play();
+                    }
                     t = 0f;
                     state = CountDownState.PAUSE;
                 }

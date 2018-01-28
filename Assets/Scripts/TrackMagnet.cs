@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#define CAN_FALL
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,6 +27,12 @@ public class TrackMagnet : MonoBehaviour
     public float jumpHeight     = 15;
     public bool isGrounded;
     public CharacterAnimator animator;
+    public SheepTracking sheepTracking;
+
+    public Vector3 fallPos;
+    public Vector3 fallDir;
+    public float fallTime;
+
     void Update()
     {
         // Quick hack to wait for 3..2..1.. ready
@@ -35,10 +42,11 @@ public class TrackMagnet : MonoBehaviour
         }
         if (startupState == StartupState.idle) return;
         animator.speed = currentSpeed * .1f;
-            Vector3 direction   = transform.forward * Time.deltaTime * currentSpeed;
+        Vector3 direction   = transform.forward * Time.deltaTime * currentSpeed;
         Vector3 up          = transform.up;
         Ray ray             = new Ray(transform.position + (transform.up * 10), -transform.up);
         Ray backRay         = new Ray(transform.position + transform.up * 10 + transform.forward * -1.5f, -transform.up);
+        Ray frontRay        = new Ray(transform.position + transform.up, transform.forward);
         Ray groundRay       = new Ray(transform.position + transform.up, transform.up * -2);
         Ray obstacleRay     = new Ray(transform.position + transform.up, transform.forward * 2);
 
@@ -63,7 +71,7 @@ public class TrackMagnet : MonoBehaviour
                 if (state == State.onTrack)
                 {
                     state = State.jump;
-                    transform.position += transform.up * jumpHeight;
+                    direction += transform.up * jumpHeight;
                 }
             }
             isGrounded = true;
@@ -72,11 +80,11 @@ public class TrackMagnet : MonoBehaviour
 
         RaycastHit hitInfo;
 #if CAN_FALL
-        if (Physics.Raycast(ray, out hitInfo)||Physics.Raycast(backRay))
+        if (Physics.Raycast(ray, out hitInfo) || Physics.Raycast(frontRay, out hitInfo,2) ||Physics.Raycast(backRay))
         {
-            
+
 #else
-        if (Physics.Raycast(ray, out hitInfo) || Physics.Raycast(backRay, out hitInfo))
+        if (Physics.Raycast(ray, out hitInfo) || Physics.Raycast(frontRay, out hitInfo,2) || Physics.Raycast(backRay, out hitInfo))
         {
 #endif
             if (hitInfo.transform != null)
@@ -113,7 +121,7 @@ public class TrackMagnet : MonoBehaviour
                         if (currentSpeed < speedNORM) currentSpeed += Time.deltaTime*accelerator;
                     }
                     //   Vector3 point = hitInfo.point;
-                    transform.position = Vector3.Lerp(transform.position, point, Time.deltaTime);
+                    transform.position = Vector3.Lerp(transform.position, point, Time.deltaTime*currentSpeed);
                     up = hitInfo.normal;
                 }
 
@@ -121,8 +129,23 @@ public class TrackMagnet : MonoBehaviour
         }
         else
         {
+            if (state != State.falling) {
+                fallPos = sheepTracking.latestSlab.transform.position;
+                fallDir = sheepTracking.latestSlab.transform.forward;
+                fallTime = Time.time;
+
+            }
             state = State.falling;
             direction += transform.up * -Time.deltaTime * 9.8f;
+            animator.speed = -1f;
+
+            if (Time.time > fallTime + 3) {
+                transform.position = fallPos;
+                transform.forward = fallDir;
+                fallTime = float.MaxValue;
+                currentSpeed = 0;
+            }
+            
         }
 
         transform.position += direction;

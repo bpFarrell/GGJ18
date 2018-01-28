@@ -67,8 +67,9 @@ namespace SplineLogic
             {
                 _enterHandle = new GameObject("enter handle").transform;
                 _enterHandle.parent = transform;
-                _enterHandle.position = transform.position + (-1f * transform.forward);
-                _enterHandle.rotation = transform.rotation;
+                _enterHandle.localPosition = (-1f * Vector3.forward);
+                _enterHandle.rotation = Quaternion.identity;
+                _enterHandle.localScale = Vector3.one;
                 SplineHandle enterhand = _enterHandle.gameObject.AddComponent<SplineHandle>();
                 enterhand.size = size / 3;
                 enterhand.color = Color.cyan;
@@ -78,8 +79,9 @@ namespace SplineLogic
             {
                 _exitHandle = new GameObject("exit handle").transform;
                 _exitHandle.parent = transform;
-                _exitHandle.position = transform.position + (1f * transform.forward);
-                _exitHandle.rotation = transform.rotation;
+                _exitHandle.localPosition = (1f * Vector3.forward);
+                _exitHandle.rotation = Quaternion.identity;
+                _exitHandle.localScale = Vector3.one;
                 SplineHandle exithand = _exitHandle.gameObject.AddComponent<SplineHandle>();
                 exithand.size = size / 3;
                 exithand.color = Color.blue;
