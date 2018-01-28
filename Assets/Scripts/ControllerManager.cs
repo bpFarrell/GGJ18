@@ -18,8 +18,8 @@ public class ControllerManager : MonoBehaviour {
 
     List<TrackMagnet> players = new List<TrackMagnet>();
     public List<int> controllerIDs = new List<int>();
-    float setupCountdown = 5;
-    bool beginCountdown;
+    public float setupCountdown = 5;
+    public bool beginCountdown;
     public bool gameBegan;
     public delegate void ControllerSetupComplete();
     public ControllerSetupComplete onControllSetupComplete;
@@ -38,7 +38,8 @@ public class ControllerManager : MonoBehaviour {
 
         for (int i = 0; i < 4; i++)
         {
-            if (ReInput.players.GetPlayer(i) != null && ReInput.players.GetPlayer(i).GetAnyButtonDown())
+            if ((ReInput.players.GetPlayer(i) != null && ReInput.players.GetPlayer(i).GetAnyButtonDown())|| 
+                (controllerIDs.Count == 0 && Input.GetButtonDown("Fire1")))
             {
                 beginCountdown = true;
                 if (controllerIDs.Contains(i)) controllerIDs.Remove(i);
@@ -61,6 +62,6 @@ public class ControllerManager : MonoBehaviour {
             beginCountdown = false;
             setupCountdown = 5;
         }
-        Debug.Log(setupCountdown);
+        //Debug.Log(setupCountdown);
     }
 }
