@@ -4,7 +4,7 @@ using UnityEngine;
 using SplineLogic;
 public class SlabController : MonoBehaviour {
     public static int width = 10;
-    private float t;
+    public float t;
     public float internalT;
     private Mesh[] quads;
     private GameObject[] gos;
@@ -18,6 +18,12 @@ public class SlabController : MonoBehaviour {
     } 
     private static bool hasFinished;
     public static List<SlabController> slabs = new List<SlabController>();
+    public void Start() {
+        gameObject.isStatic = true;
+        for(int x = 0; x < gos.Length; x++) {
+            gos[x].isStatic = true;
+        }
+    }
     public static void SpawnSlab(Vector3 pos, Quaternion rot,float t) {
         if (hasFinished) {
             hasFinished = false;
