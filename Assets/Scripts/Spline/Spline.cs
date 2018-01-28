@@ -67,24 +67,25 @@ namespace SplineLogic
             nodes = hiddenContainer.GetComponentsInChildren<SplineNode>().ToList();
         }
 
-        public void AddCurve()
+        public SplineNode AddCurve()
         {
             if (NodesCount == 0) AddNode();
 
             Transform trans = nodes.Last().transform;
-            AddCurve(nodes.Last().transform.position + (Vector3.forward * handleSize * 3), trans.rotation, trans.localScale.z);
+            return AddCurve(nodes.Last().transform.position + (Vector3.forward * handleSize * 3), trans.rotation, trans.localScale.z);
         }
 
-        public void AddCurve(Vector3 pos, Quaternion rot, float zScale)
+        public SplineNode AddCurve(Vector3 pos, Quaternion rot, float zScale)
         {
-            AddNode(pos, rot, zScale);
+            return AddNode(pos, rot, zScale);
         }
 
-        private void AddNode()
+        private SplineNode AddNode()
         {
-            if (NodesCount == 0) AddNode( transform.position , transform.rotation, transform.localScale.z);
+            if (NodesCount == 0) return AddNode(transform.position, transform.rotation, transform.localScale.z);
+            else return null;
         }
-        private void AddNode(Vector3 pos, Quaternion rot, float zScale)
+        private SplineNode AddNode(Vector3 pos, Quaternion rot, float zScale)
         {
             GameObject go = new GameObject("Node");
             
@@ -96,6 +97,7 @@ namespace SplineLogic
             go.transform.rotation = rot;
             go.transform.localScale = new Vector3(1, 1, zScale);
             nodes.Add(script);
+            return script;
         }
 
         public void RemoveCurve()
