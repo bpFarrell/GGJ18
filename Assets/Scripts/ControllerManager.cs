@@ -38,8 +38,7 @@ public class ControllerManager : MonoBehaviour {
 
         for (int i = 0; i < 4; i++)
         {
-            if ((ReInput.players.GetPlayer(i) != null && ReInput.players.GetPlayer(i).GetAnyButtonDown())|| 
-                (controllerIDs.Count == 0 && Input.GetButtonDown("Fire1")))
+            if (ReInput.players.GetPlayer(i) != null && ReInput.players.GetPlayer(i).GetAnyButtonDown())
             {
                 beginCountdown = true;
                 if (controllerIDs.Contains(i)) controllerIDs.Remove(i);

@@ -29,7 +29,7 @@ public class TrackMagnet : MonoBehaviour
     public float speedMIN       = -2;
     public float currentSpeed   = 0;
     public float accelerator    = 10;
-    public float deccelerator   = 15;
+    public float deccelerator   = 20;
     public float jumpHeight     = 10;
     public bool isGrounded;
     public CharacterAnimator animator;
@@ -48,11 +48,11 @@ public class TrackMagnet : MonoBehaviour
         axisHorizontal  = ReInput.players.GetPlayer(controllerID).GetAxis("AxisHorizontal");//Input.GetAxis("Horizontal");
         axisVertical    = ReInput.players.GetPlayer(controllerID).GetAxis("AxisVertical"); //Input.GetAxis("Vertical");
         jump            = ReInput.players.GetPlayer(controllerID).GetButtonDown("Action2");//Input.GetButtonDown("Fire1");
-        if (playerID == 0) {
-            axisHorizontal  = Input.GetAxis("Horizontal");
-            axisVertical    = Input.GetAxis("Vertical");
-            jump            = Input.GetButtonDown("Fire1");
-        }
+    //    if (playerID == 0) {
+    //        axisHorizontal  = Input.GetAxis("Horizontal");
+    //        axisVertical    = Input.GetAxis("Vertical");
+    //        jump            = Input.GetButtonDown("Fire1");
+    //    }
     }
     [System.Obsolete]
     public void AssignController(int id)
@@ -133,22 +133,22 @@ public class TrackMagnet : MonoBehaviour
                     Vector3 point = hitInfo.point;
                     trackingState = TrackingState.onTrack;
 
-                    if (Input.GetKey(KeyCode.A) || axisHorizontal < -.9f)
+                    if (axisHorizontal < -.9f)
                     {
                         transform.Rotate(Vector3.up * -100 * Time.deltaTime);
                     }
-                    if (Input.GetKey(KeyCode.D) || axisHorizontal > .9f)
+                    if (axisHorizontal > .9f)
                     {
                         transform.Rotate(Vector3.up * 100 * Time.deltaTime);
                     }
-                    if (Input.GetKey(KeyCode.S) || axisVertical < -.9f)
+                    if (axisVertical < -.9f)
                     {
                         if (currentSpeed > speedMIN)
                         {
                             currentSpeed -= Time.deltaTime * deccelerator;
                         }
                     }
-                    if (Input.GetKey(KeyCode.W) || axisVertical > .9f)
+                    if (axisVertical > .9f)
                     {
                         if (currentSpeed < speedMAX)
                         {
