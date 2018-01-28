@@ -28,7 +28,7 @@ public class TrackMagnet : MonoBehaviour
     public float currentSpeed   = 0;
     public float accelerator    = 10;
     public float deccelerator   = 15;
-    public float jumpHeight     = 15;
+    public float jumpHeight     = 10;
     public bool isGrounded;
     public CharacterAnimator animator;
     public SheepTracking sheepTracking;
@@ -43,13 +43,18 @@ public class TrackMagnet : MonoBehaviour
 
     Player playerController;
     void Controller() {
-    //    axisHorizontal  = playerController.GetAxis("AxisHorizontal");//Input.GetAxis("Horizontal");
-    //    axisVertical    = playerController.GetAxis("AxisVertical"); Input.GetAxis("Vertical");
-    //    jump            = playerController.GetButtonDown("Action2");//Input.GetButtonDown("Fire1");
+        axisHorizontal  = ReInput.players.GetPlayer(playerID).GetAxis("AxisHorizontal");//Input.GetAxis("Horizontal");
+        axisVertical    = ReInput.players.GetPlayer(playerID).GetAxis("AxisVertical"); //Input.GetAxis("Vertical");
+        jump            = ReInput.players.GetPlayer(playerID).GetButtonDown("Action2");//Input.GetButtonDown("Fire1");
+        if (playerID == 0) {
+            axisHorizontal  = Input.GetAxis("Horizontal");
+            axisVertical    = Input.GetAxis("Vertical");
+            jump            = Input.GetButtonDown("Fire1");
+        }
     }
     public void AssignController(int id)
     {
-        playerController = ReInput.players.GetPlayer(id+1);
+        playerController = ReInput.players.GetPlayer(id);
     }
     void Update()
     {
