@@ -16,7 +16,13 @@ public class CharacterAnimator : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
         sheepMat = sheep.GetComponent<MeshRenderer>().material;
+        sheepMat = new Material(sheepMat);
+        sheep.GetComponent<MeshRenderer>().material = sheepMat;
         hornsMat = horns.GetComponent<MeshRenderer>().material;
+        hornsMat = new Material(hornsMat);
+        horns.GetComponent<MeshRenderer>().material = hornsMat;
+        sheepMat.SetColor("_Color", CameraMaster.instance.playerColors[CameraMaster.currentPlayerSetup]);
+        hornsMat.SetColor("_Color", CameraMaster.instance.playerColors[CameraMaster.currentPlayerSetup]);
     }
 	public float GetYPos(float animTime,float jumping) {
 
