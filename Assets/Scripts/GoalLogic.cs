@@ -26,7 +26,7 @@ public class GoalLogic : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         transform.position = startPos + Vector3.up * Mathf.Sin(Time.time*bounceSpeed);
-        transform.Rotate(Time.deltaTime * spinSpeed,0 , 0);
+        transform.Rotate(0 , 0, Time.deltaTime * spinSpeed);
 	}
     public void CheckDistance(Vector3 pos,TrackMagnet magnet) {
         if (Vector3.Distance(pos, transform.position) < scoreDistance) {
