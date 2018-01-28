@@ -25,6 +25,7 @@ public class CameraMaster : MonoBehaviour {
             Vector3 point = SplineLogic.Spline.instance.EvaluatePosition(0.1f);
             playerSets[x].transform.position = point + Vector3.right * (x*2 - 1.5f);
             playerCams[x] = playerSets[x].GetComponentInChildren<Camera>();
+            ControllerManager.instance.AddPlayer(x, playerSet);
         }
         currentPlayerSetup = -1;
         switch (playerCount) {

@@ -2,22 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Rewired;
 
 public class TrackMagnet : MonoBehaviour
 {
+    public int playerID;
+    public bool init;
     public enum StartupState {
         idle,
         ready
     }
     public StartupState startupState;
-    public enum State
+    public enum TrackingState
     {
         idle,
         onTrack,
         jump,
         falling
     }
-    public State state;
+    public TrackingState trackingState;
     public float speedMAX       = 30;
     public float speedNORM      = 20;
     public float speedMIN       = -2;
@@ -33,10 +36,26 @@ public class TrackMagnet : MonoBehaviour
     public Vector3 fallDir;
     public float fallTime;
 
+    public float axisHorizontal;
+    public float axisVertical;
+    public bool jump;
+
+    Player playerController;
+    void Controller() {
+    //    axisHorizontal  = playerController.GetAxis("AxisHorizontal");//Input.GetAxis("Horizontal");
+    //    axisVertical    = playerController.GetAxis("AxisVertical"); Input.GetAxis("Vertical");
+    //    jump            = playerController.GetButtonDown("Action2");//Input.GetButtonDown("Fire1");
+    }
+    public void AssignController(int id)
+    {
+        playerController = ReInput.players.GetPlayer(id+1);
+    }
     void Update()
     {
+        if(init) Controller();
+
         // Quick hack to wait for 3..2..1.. ready
-        if (Input.GetButtonDown("Fire1"))
+        if (jump)
         {
             if (startupState == StartupState.idle) startupState = StartupState.ready;
         }
@@ -65,12 +84,12 @@ public class TrackMagnet : MonoBehaviour
         }
         if (Physics.Raycast(groundRay, 2f))
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (jump)
             {
                 if (startupState == StartupState.idle) startupState = StartupState.ready;
-                if (state == State.onTrack)
+                if (trackingState == TrackingState.onTrack)
                 {
-                    state = State.jump;
+                    trackingState = TrackingState.jump;
                     direction += transform.up * jumpHeight;
                 }
             }
@@ -92,24 +111,24 @@ public class TrackMagnet : MonoBehaviour
                 if (hitInfo.transform.gameObject.layer == 4)
                 {
                     Vector3 point = hitInfo.point;
-                    state = State.onTrack;
+                    trackingState = TrackingState.onTrack;
 
-                    if (Input.GetKey(KeyCode.A) || Input.GetAxis("Horizontal") < -.9f)
+                    if (Input.GetKey(KeyCode.A) || axisHorizontal < -.9f)
                     {
                         transform.Rotate(Vector3.up * -100 * Time.deltaTime);
                     }
-                    if (Input.GetKey(KeyCode.D) || Input.GetAxis("Horizontal") > .9f)
+                    if (Input.GetKey(KeyCode.D) || axisHorizontal > .9f)
                     {
                         transform.Rotate(Vector3.up * 100 * Time.deltaTime);
                     }
-                    if (Input.GetKey(KeyCode.S) || Input.GetAxis("Vertical") < -.9f)
+                    if (Input.GetKey(KeyCode.S) || axisVertical < -.9f)
                     {
                         if (currentSpeed > speedMIN)
                         {
                             currentSpeed -= Time.deltaTime * deccelerator;
                         }
                     }
-                    if (Input.GetKey(KeyCode.W) || Input.GetAxis("Vertical") > .9f)
+                    if (Input.GetKey(KeyCode.W) || axisVertical > .9f)
                     {
                         if (currentSpeed < speedMAX)
                         {
@@ -129,13 +148,13 @@ public class TrackMagnet : MonoBehaviour
         }
         else
         {
-            if (state != State.falling) {
+            if (trackingState != TrackingState.falling) {
                 fallPos = sheepTracking.latestSlab.transform.position;
                 fallDir = sheepTracking.latestSlab.transform.forward;
                 fallTime = Time.time;
 
             }
-            state = State.falling;
+            trackingState = TrackingState.falling;
             direction += transform.up * -Time.deltaTime * 9.8f;
             animator.speed = -1f;
 
