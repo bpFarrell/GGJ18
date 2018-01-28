@@ -27,12 +27,21 @@ public class TrackMagnet : MonoBehaviour
         Ray ray             = new Ray(transform.position + (transform.up * 10), -transform.up);
         Ray backRay         = new Ray(transform.position + transform.up * 10 + transform.forward * -1.5f, -transform.up);
         Ray groundRay       = new Ray(transform.position + transform.up, transform.up * -2);
+        Ray obstacleRay     = new Ray(transform.position + transform.up, transform.forward * 2);
 
-        RaycastHit hitInfo;
         Debug.DrawRay(ray.origin, ray.direction * 10, Color.green);
         Debug.DrawRay(backRay.origin, backRay.direction * 10, Color.yellow);
         Debug.DrawRay(groundRay.origin, groundRay.direction * 2, Color.cyan);
+        Debug.DrawRay(obstacleRay.origin, obstacleRay.direction * 2, Color.red);
 
+        RaycastHit obstacleHitinfo;
+        if (Physics.Raycast(obstacleRay, out obstacleHitinfo,2)) {
+            if (obstacleHitinfo.transform.gameObject.layer == 8) {
+                Debug.Log("Hit obstacle : "+ obstacleHitinfo.transform.name);
+
+                if(currentSpeed > 2) currentSpeed = 2;
+            }
+        }
         if (Physics.Raycast(groundRay, 2f))
         {
             if (Input.GetButtonDown("Fire1"))
@@ -46,6 +55,8 @@ public class TrackMagnet : MonoBehaviour
             isGrounded = true;
         }
         else isGrounded = false;
+
+        RaycastHit hitInfo;
 #if CAN_FALL
         if (Physics.Raycast(ray, out hitInfo)||Physics.Raycast(backRay))
         {
@@ -76,7 +87,7 @@ public class TrackMagnet : MonoBehaviour
                             currentSpeed -= Time.deltaTime * deccelerator;
                         }
                     }
-                    if (Input.GetKey(KeyCode.W) || Input.GetAxis("Vertical") > .9f)
+                    if (Input.GetKey(KeyCode.S) || Input.GetAxis("Vertical") > .9f)
                     {
                         if (currentSpeed < speedMAX)
                         {
