@@ -8,7 +8,7 @@ public class CharacterAnimator : MonoBehaviour {
     Material sheepMat;
     Material hornsMat;
     const float hornOffset = 0.44f;
-    float animTime;
+    public float animTime;
     public float animSpeed;
     public float jumping;
     public float speed;
@@ -17,7 +17,7 @@ public class CharacterAnimator : MonoBehaviour {
         sheepMat = sheep.GetComponent<MeshRenderer>().material;
         hornsMat = horns.GetComponent<MeshRenderer>().material;
     }
-	float GetYPos(float animTime,float jumping) {
+	public float GetYPos(float animTime,float jumping) {
 
         return Mathf.Abs(Mathf.Sin(hornOffset+animTime)) * jumping;
     }
