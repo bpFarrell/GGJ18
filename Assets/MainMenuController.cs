@@ -73,7 +73,7 @@ public class MainMenuController : MonoBehaviour
         timer.enabled = ControllerManager.instance.beginCountdown;
         if (ControllerManager.instance.beginCountdown)
         {
-            timer.text = ControllerManager.instance.setupCountdown.ToString();
+            timer.text = ((int)ControllerManager.instance.setupCountdown).ToString();
         }
         for (int i = 0; i < players.Count; i++)
         {

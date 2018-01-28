@@ -61,6 +61,6 @@ public class ControllerManager : MonoBehaviour {
             beginCountdown = false;
             setupCountdown = 5;
         }
-        Debug.Log(setupCountdown);
+        //Debug.Log(setupCountdown);
     }
 }

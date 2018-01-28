@@ -15,12 +15,14 @@ using UnityEngine.UI;
 public class EndCredits : MonoBehaviour {
     public RectTransform credits;
     public float speed;
+    public Camera idleCam;
 
     private bool isDone = false;
 
     private void Start()
     {
-        
+        enabled = false;
+        GoalLogic.OnLastFinish += CreditsStart;
     }
 
     private void FixedUpdate()
@@ -32,6 +34,12 @@ public class EndCredits : MonoBehaviour {
             CreditsOver();
             isDone = true;
         }
+    }
+
+    private void CreditsStart()
+    {
+        enabled = true;
+        if (idleCam != null) idleCam.depth = 10;
     }
 
     private void CreditsOver()
