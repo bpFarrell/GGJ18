@@ -26,6 +26,20 @@ public class TrackBuilder : MonoBehaviour {
         SpawnSlabs();
 	}
 
+    public void SmoothObjects()
+    {
+        for (int i = 1; i < spline.nodes.Count-1; i++)
+        {
+            Smooth(spline.nodes[i - 1].gameObject, spline.nodes[i].gameObject, spline.nodes[i + 1].gameObject);
+        }
+    }
+
+    private void Smooth(GameObject before, GameObject target, GameObject after)
+    {
+        Quaternion q1 = Quaternion.LookRotation(after.transform.position - target.transform.position);
+        target.transform.rotation = Quaternion.RotateTowards(target.transform.rotation, q1, 10f);
+    }
+
     public void SpawnSlabs()
     {
         SlabController.SpawnSlab(spline.nodes[0].transform.position, spline.nodes[0].transform.rotation, 0);
@@ -51,7 +65,9 @@ public class TrackBuilder : MonoBehaviour {
     public void CreateTrackNodes()
     {
         spline.ClearNodes();
-        CreateTrackNode(transform.position, Quaternion.identity, 8.5f, length);
+        spline.AddCurve((Vector3.forward * -20f) + transform.position, Quaternion.identity, 3.5f);
+        CreateTrackNode(transform.position, Quaternion.identity, 7.5f, length);
+        SmoothObjects();
     }
     private void CreateTrackNode(Vector3 lastPos, Quaternion lastRot, float lastZScale, int depth )
     {
@@ -59,10 +75,10 @@ public class TrackBuilder : MonoBehaviour {
         if (depth <= 0) return;
 
         Vector3 circle = UnityEngine.Random.insideUnitCircle;
-        Vector3 offset = lastRot * ((Vector3.forward + (circle*2f)) * 15);
+        Vector3 offset = (lastRot * (Vector3.forward + (circle)) * 40f);
 
         Quaternion fromTo = Quaternion.FromToRotation(lastRot * Vector3.forward, offset);
-        Quaternion rotation = Quaternion.RotateTowards( lastRot, fromTo, 80f);
+        Quaternion rotation = Quaternion.RotateTowards( lastRot, fromTo, 10f);
 
         float zScale = lastZScale + UnityEngine.Random.Range(-1f, 1f);
 
