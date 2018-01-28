@@ -43,10 +43,10 @@ public class CountDown : MonoBehaviour {
         img = GetComponent<Image>();
         audioSource = GetComponent<AudioSource>();
         instance = this;
-        //SetAndCount();
     }
     public static void SetAndCount()
     {
+        if (instance == null) return;
         instance.index = 0;
         instance.t = 0f;
         instance.img.rectTransform.sizeDelta = new Vector2(256, 256);
@@ -115,5 +115,4 @@ public class CountDown : MonoBehaviour {
                 break;
         }
     }
-
 }
