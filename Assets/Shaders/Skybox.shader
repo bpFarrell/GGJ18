@@ -50,7 +50,11 @@
 				fixed4 col1 = fixed4(0.2,0.2,1.,1.);
 				fixed4 col2 = fixed4(0.8,0.2,0.8,1.);
 				float black = 1 - saturate(pow(i.uv.y, 2)*3);
-				float stars = tex2D(_MainTex, i.uv);
+				//i.uv.x += -_Time.x*10;
+				float stars = tex2D(_MainTex, i.uv)*pow((sin(_Time.x*40+i.uv.x*100+i.uv.y*10)*0.5+0.7),3);
+				///stars *=  i.uv.x;
+				//stars = 0;
+				//return fixed4(i.uv, 0, 1);
 				return lerp(col1,col2,i.uv.y+0.7)*saturate(black+stars*2);
 			}
 			ENDCG
