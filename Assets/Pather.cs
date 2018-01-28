@@ -15,7 +15,7 @@ public class Pather : MonoBehaviour {
     private void Update() {
         hiddenDistance = _distance;
         smoothDist = Mathf.Lerp(smoothDist, _distance, Time.deltaTime*10);
-        mat.SetFloat("_Location", smoothDist*0.5f+10);
+        mat.SetFloat("_Location", smoothDist*0.5f+13);
     }
     private void Reset() {
         _distance = 0;
