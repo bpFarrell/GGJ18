@@ -19,8 +19,11 @@ public class Pather : MonoBehaviour {
     }
     private void Reset() {
         _distance = 0;
+        smoothDist = 0;
+        mat.SetFloat("_Location", 0);
     }
     private void OnEnable() {
+        Reset();
         GoalLogic.OnLastFinish += Reset;
     }
     private void OnDisable() {
