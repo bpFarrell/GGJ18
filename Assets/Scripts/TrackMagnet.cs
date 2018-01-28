@@ -42,13 +42,13 @@ public class TrackMagnet : MonoBehaviour
 
     Player playerController;
     void Controller() {
-    //    axisHorizontal  = playerController.GetAxis("AxisHorizontal");//Input.GetAxis("Horizontal");
-    //    axisVertical    = playerController.GetAxis("AxisVertical"); Input.GetAxis("Vertical");
-    //    jump            = playerController.GetButtonDown("Action2");//Input.GetButtonDown("Fire1");
+        axisHorizontal  = ReInput.players.GetPlayer(playerID).GetAxis("AxisHorizontal");//Input.GetAxis("Horizontal");
+        axisVertical    = ReInput.players.GetPlayer(playerID).GetAxis("AxisVertical"); Input.GetAxis("Vertical");
+        jump            = ReInput.players.GetPlayer(playerID).GetButtonDown("Action2");//Input.GetButtonDown("Fire1");
     }
     public void AssignController(int id)
     {
-        playerController = ReInput.players.GetPlayer(id+1);
+        playerController = ReInput.players.GetPlayer(id);
     }
     void Update()
     {
