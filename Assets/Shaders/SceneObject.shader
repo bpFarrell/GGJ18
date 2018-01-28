@@ -3,6 +3,8 @@
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
+
+	[HDR]
 		_Color("Color",Color) = (0,1,0,1)
 	}
 	SubShader
@@ -31,6 +33,7 @@
 				float2 uv : TEXCOORD0;
 				UNITY_FOG_COORDS(1)
 				float4 vertex : SV_POSITION;
+				float3 worldPos : TEXCOORD1;
 			};
 
 			sampler2D _MainTex;
@@ -40,6 +43,7 @@
 			{
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
+				o.worldPos = mul(unity_ObjectToWorld, v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				UNITY_TRANSFER_FOG(o,o.vertex);
 				return o;
@@ -49,9 +53,10 @@
 			{
 				// sample the texture
 				fixed4 col = tex2D(_MainTex, i.uv);
+				float wave = sin(i.worldPos.x*0.1 + _Time.x * 60)*0.2 + 0.8;
 				if (col.a < 0.5)
 					discard;
-				return col*_Color;
+				return col*_Color*wave;
 			}
 			ENDCG
 		}
