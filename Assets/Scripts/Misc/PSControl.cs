@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PSControl : MonoBehaviour {
 
-    public RaceObjBehave raceObjBehave;
+    public float rateToSpeed = .5f;
+    public TrackMagnet raceObjBehave;
     ParticleSystem ps;
     private void Awake()
     {
@@ -13,6 +14,6 @@ public class PSControl : MonoBehaviour {
     private void Update()
     {
         ParticleSystem.EmissionModule emiss = ps.emission;
-        emiss.rateOverTime = raceObjBehave.speed * .5f;
+        emiss.rateOverTime = raceObjBehave.currentSpeed * rateToSpeed;
     }
 }

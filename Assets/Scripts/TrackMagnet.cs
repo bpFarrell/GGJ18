@@ -12,12 +12,13 @@ public class TrackMagnet : MonoBehaviour
         falling
     }
     public State state;
-    public float speedMAX   = 30;
-    public float speedNORM  = 20;
-    public float speedMIN   = -2;
-    public float currentSpeed;
-    public float accelerator;
-    public float deccelerator;
+    public float speedMAX       = 30;
+    public float speedNORM      = 20;
+    public float speedMIN       = -2;
+    public float currentSpeed   = 0;
+    public float accelerator    = 10;
+    public float deccelerator   = 15;
+    public float jumpHeight     = 15;
     public bool isGrounded;
     void Update()
     {
@@ -39,7 +40,7 @@ public class TrackMagnet : MonoBehaviour
                 if (state == State.onTrack)
                 {
                     state = State.jump;
-                    transform.position += transform.up * 3;
+                    transform.position += transform.up * jumpHeight;
                 }
             }
             isGrounded = true;
@@ -87,7 +88,7 @@ public class TrackMagnet : MonoBehaviour
                         if (currentSpeed < speedNORM) currentSpeed += Time.deltaTime*accelerator;
                     }
                     //   Vector3 point = hitInfo.point;
-                    transform.position = Vector3.Lerp(transform.position, point, Time.deltaTime * currentSpeed);
+                    transform.position = Vector3.Lerp(transform.position, point, Time.deltaTime);
                     up = hitInfo.normal;
                 }
 
