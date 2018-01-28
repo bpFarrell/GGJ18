@@ -28,7 +28,7 @@ public class TrackMagnet : MonoBehaviour
     public float speedNORM      = 20;
     public float speedMIN       = -2;
     public float currentSpeed   = 0;
-    public float accelerator    = 10;
+    public float accelerator    = 20;
     public float deccelerator   = 20;
     public float jumpHeight     = 10;
     public bool isGrounded;
