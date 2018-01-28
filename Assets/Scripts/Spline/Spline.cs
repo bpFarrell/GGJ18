@@ -19,18 +19,18 @@ namespace SplineLogic
     {
         public static Spline instance;
         public List<SplineNode> nodes = new List<SplineNode>();
-        private GameObject _hiddenContainer;
-        private GameObject hiddenContainer
+        private Transform _hiddenContainer;
+        private Transform hiddenContainer
         {
             get
             {
                 if (_hiddenContainer != null) return _hiddenContainer;
                 else
                 {
-                    _hiddenContainer = transform.Find("Container").gameObject;
+                    _hiddenContainer = transform.Find("Container");
                     if (_hiddenContainer == null)
                     {
-                        _hiddenContainer = new GameObject("Container");
+                        _hiddenContainer = new GameObject("Container").transform;
                         _hiddenContainer.transform.parent = transform;
                     }
                 }
@@ -87,13 +87,14 @@ namespace SplineLogic
         private void AddNode(Vector3 pos, Quaternion rot, float zScale)
         {
             GameObject go = new GameObject("Node");
-            go.transform.position = pos;
-            go.transform.rotation = rot;
-            go.transform.localScale = new Vector3(1, 1, zScale);
+            
             go.transform.parent = hiddenContainer.transform;
             SplineNode script = go.AddComponent<SplineNode>();
             script.size = handleSize;
             script.Init();
+            go.transform.position = pos;
+            go.transform.rotation = rot;
+            go.transform.localScale = new Vector3(1, 1, zScale);
             nodes.Add(script);
         }
 

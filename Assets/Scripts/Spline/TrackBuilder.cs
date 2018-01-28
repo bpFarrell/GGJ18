@@ -51,14 +51,21 @@ public class TrackBuilder : MonoBehaviour {
     public void CreateTrackNodes()
     {
         spline.ClearNodes();
-        CreateTrackNode(transform.position, Quaternion.identity, 1f, length);
+        CreateTrackNode(transform.position, Quaternion.identity, 8.5f, length);
     }
     private void CreateTrackNode(Vector3 lastPos, Quaternion lastRot, float lastZScale, int depth )
     {
         spline.AddCurve(lastPos, lastRot, lastZScale);
         if (depth <= 0) return;
-        
-        Vector3 offset = Vector3.forward * 9;
-        CreateTrackNode(lastPos + offset, Quaternion.identity, 1f, --depth);
+
+        Vector3 circle = UnityEngine.Random.insideUnitCircle;
+        Vector3 offset = lastRot * ((Vector3.forward + (circle*2f)) * 15);
+
+        Quaternion fromTo = Quaternion.FromToRotation(lastRot * Vector3.forward, offset);
+        Quaternion rotation = Quaternion.RotateTowards( lastRot, fromTo, 80f);
+
+        float zScale = lastZScale + UnityEngine.Random.Range(-1f, 1f);
+
+        CreateTrackNode(lastPos + offset, rotation, zScale, --depth);
     }
 }
