@@ -1285,7 +1285,7 @@ MonoBehaviour:
   - {r: 4, g: 1.2352941, b: 0, a: 0}
   - {r: 1.1176472, g: 4, b: 0, a: 0}
   - {r: 4, g: 4, b: 4, a: 0}
-  playerCount: 4
+  playerCount: 2
   updateCamera: 0
 --- !u!4 &1387813475
 Transform:
