@@ -252,7 +252,7 @@ Transform:
   m_GameObject: {fileID: 1190002095695864}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 4101738102298148}
   - {fileID: 4927187922767528}
@@ -514,6 +514,10 @@ MonoBehaviour:
   jumpHeight: 15
   isGrounded: 0
   animator: {fileID: 114845065765919428}
+  sheepTracking: {fileID: 114388661180156652}
+  fallPos: {x: 0, y: 0, z: 0}
+  fallDir: {x: 0, y: 0, z: 0}
+  fallTime: 0
 --- !u!114 &114388661180156652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -525,8 +529,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eddc87d9357cc2418a72e86b3d01455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mat: {fileID: 0}
   target: {fileID: 4201009711458372}
-  trackSpeed: 10
+  trackSpeed: 20
+  latestSlab: {fileID: 0}
 --- !u!114 &114845065765919428
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -555,7 +561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d04d029a80e92e48ac774bf1a9759fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rateToSpeed: 0.6
+  rateToSpeed: 0.1
   raceObjBehave: {fileID: 114327089203515310}
 --- !u!198 &198883545655255092
 ParticleSystem:
@@ -3933,8 +3939,8 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 08edcac6807d9e543a7d25536a40c246, type: 2}
-  - {fileID: 2100000, guid: 08edcac6807d9e543a7d25536a40c246, type: 2}
+  - {fileID: 2100000, guid: c053acc3c6c03cb4dad882e931f88e10, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
