@@ -18,8 +18,8 @@ public class ControllerManager : MonoBehaviour {
 
     List<TrackMagnet> players = new List<TrackMagnet>();
     public List<int> controllerIDs = new List<int>();
-    float setupCountdown = 5;
-    bool beginCountdown;
+    public float setupCountdown = 5;
+    public bool beginCountdown;
     public bool gameBegan;
     public delegate void ControllerSetupComplete();
     public ControllerSetupComplete onControllSetupComplete;

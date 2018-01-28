@@ -56,6 +56,7 @@ public class MainMenuController : MonoBehaviour
     }
     public List<PlayerReadyUp> players = new List<PlayerReadyUp>();
     public Image[] iconReferences;
+    public Text timer;
     public StartDelegate OnStart;
 
     private void Start()
@@ -69,6 +70,11 @@ public class MainMenuController : MonoBehaviour
     }
     private void Update()
     {
+        timer.enabled = ControllerManager.instance.beginCountdown;
+        if (ControllerManager.instance.beginCountdown)
+        {
+            timer.text = ControllerManager.instance.setupCountdown.ToString();
+        }
         for (int i = 0; i < players.Count; i++)
         {
             players[i].Update();
