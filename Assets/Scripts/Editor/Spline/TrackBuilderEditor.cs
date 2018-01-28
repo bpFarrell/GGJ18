@@ -50,6 +50,10 @@ public class TrackBuilderEditor : Editor {
             {
                 (target as TrackBuilder).CreateTrackNodes();
             }
+            if(GUILayout.Button("Smooth Nodes"))
+            {
+                (target as TrackBuilder).SmoothObjects();
+            }
             // Variable Display
             EditorGUI.BeginDisabledGroup(true);
 
