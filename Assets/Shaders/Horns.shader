@@ -56,7 +56,7 @@
 				float c = tex2D(_MainTex,i.uv);
 				float t = saturate(_T - (i.uv.x)*10);
 				float segments = sin(i.uv.x * 200)*0.2 + 0.8*sin(i.uv.y*200)*0.5+0.5;
-				return _Color*segments*c*t*(sin(_Time.x * 100)*0.2 + 0.8);
+				return _Color*segments*c*t*(sin(_Time.x * 100)*0.3 + 0.65);
 			}
 			ENDCG
 		}
