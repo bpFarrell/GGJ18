@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class TrackMagnet : MonoBehaviour
 {
+    public enum StartupState {
+        idle,
+        ready
+    }
+    public StartupState startupState;
     public enum State
     {
         idle,
@@ -22,7 +27,14 @@ public class TrackMagnet : MonoBehaviour
     public bool isGrounded;
     void Update()
     {
-        Vector3 direction   = transform.forward * Time.deltaTime * currentSpeed;
+        // Quick hack to wait for 3..2..1.. ready
+        if (Input.GetButtonDown("Fire1"))
+        {
+            if (startupState == StartupState.idle) startupState = StartupState.ready;
+        }
+        if (startupState == StartupState.idle) return;
+        
+            Vector3 direction   = transform.forward * Time.deltaTime * currentSpeed;
         Vector3 up          = transform.up;
         Ray ray             = new Ray(transform.position + (transform.up * 10), -transform.up);
         Ray backRay         = new Ray(transform.position + transform.up * 10 + transform.forward * -1.5f, -transform.up);
@@ -46,6 +58,7 @@ public class TrackMagnet : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1"))
             {
+                if (startupState == StartupState.idle) startupState = StartupState.ready;
                 if (state == State.onTrack)
                 {
                     state = State.jump;
