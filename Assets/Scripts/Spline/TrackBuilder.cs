@@ -59,10 +59,10 @@ public class TrackBuilder : MonoBehaviour {
         if (depth <= 0) return;
 
         Vector3 circle = UnityEngine.Random.insideUnitCircle;
-        Vector3 offset = lastRot * ((Vector3.forward + (circle*2f)) * 15);
+        Vector3 offset = lastRot * ((Vector3.forward + (circle*2f)) * 30);
 
         Quaternion fromTo = Quaternion.FromToRotation(lastRot * Vector3.forward, offset);
-        Quaternion rotation = Quaternion.RotateTowards( lastRot, fromTo, 80f);
+        Quaternion rotation = Quaternion.RotateTowards( lastRot, fromTo, 20f);
 
         float zScale = lastZScale + UnityEngine.Random.Range(-1f, 1f);
 

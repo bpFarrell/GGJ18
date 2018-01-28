@@ -20,7 +20,8 @@ public class SheepTracking : MonoBehaviour {
 	void Update () {
         Move();
         GetNodeInfo();
-        LerpT();
+        UpdateLocaiton();
+        //LerpT();
 	}
 
     void Move() {
@@ -35,16 +36,19 @@ public class SheepTracking : MonoBehaviour {
             if (hitInfo.transform.GetComponent<SlabController>() != null) {
                 latestSlab = hitInfo.transform.GetComponent<SlabController>();
                 locationT = latestSlab.internalT;
+                Pather.distance = latestSlab.internalT;
             }
         }
     }
-
+    void UpdateLocaiton() {
+        Pather.distance = locationT;
+    }
     void LerpT() {
         float currentT = mat.GetFloat("_Location");
         if (locationT > currentT)
         {
             currentT = Mathf.Lerp(currentT, locationT, Time.deltaTime * 10);
-            mat.SetFloat("_Location", currentT + 8);
+            //mat.SetFloat("_Location", currentT + 8);
         }
     }
 }

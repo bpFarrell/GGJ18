@@ -16,6 +16,6 @@ public class SpamQuads : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        mat.SetFloat("_Location", racer.position.magnitude+5);
+        //mat.SetFloat("_Location", racer.position.magnitude+5);
     }
 }
