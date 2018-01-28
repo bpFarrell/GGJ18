@@ -6,8 +6,10 @@ public class SlabController : MonoBehaviour {
     public static int width = 10;
     public float t;
     public float internalT;
+    public int index;
     private Mesh[] quads;
     private GameObject[] gos;
+    private MeshRenderer[] mr;
     private static Material _mat;
     public static Material mat {
         get { return _mat ?? (_mat = Resources.Load("Unlit_Spawn")as Material); }
@@ -20,8 +22,16 @@ public class SlabController : MonoBehaviour {
     public static List<SlabController> slabs = new List<SlabController>();
     public void Start() {
         gameObject.isStatic = true;
+        mr = new MeshRenderer[gos.Length];
         for(int x = 0; x < gos.Length; x++) {
             gos[x].isStatic = true;
+            mr[x] = gos[x].GetComponent<MeshRenderer>();
+            mr[x].enabled = false;
+        }
+    }
+    public void EnableRender() {
+        for (int x = 0; x < mr.Length; x++) {
+            mr[x].enabled = true;
         }
     }
     public static void SpawnSlab(Vector3 pos, Quaternion rot,float t) {
@@ -44,6 +54,7 @@ public class SlabController : MonoBehaviour {
         parent.layer = 4;
         slab.quads = new Mesh[width];
         slab.gos = new GameObject[width];
+        slab.index = slabs.Count - 1;
         Vector2[] lanePos = new Vector2[4];
         for (int uv = 0; uv < 4; uv++) {
             lanePos[uv] = new Vector2(slab.internalT, slab.internalT);

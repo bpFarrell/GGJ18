@@ -37,6 +37,7 @@ public class SheepTracking : MonoBehaviour {
                 latestSlab = hitInfo.transform.GetComponent<SlabController>();
                 locationT = latestSlab.internalT;
                 Pather.distance = latestSlab.internalT;
+                Pather.highestIndex = latestSlab.index;
             }
         }
     }
