@@ -39,6 +39,14 @@ public class ControllerManager : MonoBehaviour {
                 else {
                     controllerIDs.Add(i);
                 }
+                Debug.Log(controllerIDs.Count +": players join, controller == " + i);
+            }
+        }
+        if (beginCountdown) {
+            setupCountdown -= Time.deltaTime;
+            if (setupCountdown <= 0.1f) {
+                CameraMaster.instance.Initialize(controllerIDs);
+            //    CountDown.ins
             }
         }
         if (controllerIDs.Count == 0) {
