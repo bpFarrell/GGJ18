@@ -5,7 +5,7 @@
 		_MainTex ("Texture", 2D) = "white" {}
 		_T("t",Float) = 0
 			[HDR]
-		_Color1("color1",Color) = (0,1,0,1)
+		_Color("color1",Color) = (0,1,0,1)
 			[HDR]
 		_Color2("color2",Color) = (0,1,0,1)
 	}
@@ -40,7 +40,7 @@
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 			float _T;
-			float4 _Color1;
+			float4 _Color;
 			float4 _Color2;
 			v2f vert (appdata v)
 			{
@@ -56,7 +56,7 @@
 				float c = tex2D(_MainTex,i.uv);
 				float t = saturate(_T - (i.uv.x)*10);
 				float segments = sin(i.uv.x * 200)*0.2 + 0.8*sin(i.uv.y*200)*0.5+0.5;
-				return _Color1*segments*c*t*(sin(_Time.x * 100)*0.2 + 0.8);
+				return _Color*segments*c*t*(sin(_Time.x * 100)*0.2 + 0.8);
 			}
 			ENDCG
 		}
