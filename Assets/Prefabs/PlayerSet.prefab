@@ -654,6 +654,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sheep: {fileID: 1255366201874454}
+  bow: {fileID: 1718203273084702}
+  eyes: {fileID: 1530725993195582}
   horns: {fileID: 1111273369628076}
   animTime: 0
   animSpeed: 0
