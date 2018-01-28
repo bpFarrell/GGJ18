@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114276423155873164}
   - component: {fileID: 114802252047687908}
   - component: {fileID: 114609615967319276}
+  - component: {fileID: 135500111749735658}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -574,7 +575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distBack: 7
-  distUp: 4
+  distUp: 8
   racer: {fileID: 4201009711458372}
   speed: 7
 --- !u!114 &114327089203515310
@@ -588,8 +589,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f0d0f571636f754c8e23629025674cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerID: -1
+  controllerID: -1
+  init: 0
+  canStart: 0
   startupState: 0
-  state: 0
+  trackingState: 0
   speedMAX: 30
   speedNORM: 15
   speedMIN: -2
@@ -603,6 +608,9 @@ MonoBehaviour:
   fallPos: {x: 0, y: 0, z: 0}
   fallDir: {x: 0, y: 0, z: 0}
   fallTime: 0
+  axisHorizontal: 0
+  axisVertical: 0
+  jump: 0
 --- !u!114 &114388661180156652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -681,6 +689,18 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1049664103310300}
   m_Enabled: 1
+--- !u!135 &135500111749735658
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1049664103310300}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &198883545655255092
 ParticleSystem:
   m_ObjectHideFlags: 1
