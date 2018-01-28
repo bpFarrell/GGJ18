@@ -10,6 +10,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class EndCredits : MonoBehaviour {
@@ -21,7 +22,7 @@ public class EndCredits : MonoBehaviour {
 
     private void Start()
     {
-        enabled = false;
+        if (this != null) enabled = false;
         GoalLogic.OnLastFinish += CreditsStart;
     }
 
@@ -38,12 +39,12 @@ public class EndCredits : MonoBehaviour {
 
     private void CreditsStart()
     {
-        enabled = true;
+        if(this != null) enabled = true;
         if (idleCam != null) idleCam.depth = 10;
     }
 
     private void CreditsOver()
     {
-        //throw new NotImplementedException();
+        SceneManager.LoadScene(0);
     }
 }
