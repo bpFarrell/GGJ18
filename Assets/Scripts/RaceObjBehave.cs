@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Obsolete("Changed to a track magnet and lerp system")]
 public class RaceObjBehave : MonoBehaviour {
     CharacterAnimator charAnimator;
     public GameObject racer;
