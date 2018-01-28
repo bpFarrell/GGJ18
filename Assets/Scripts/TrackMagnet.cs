@@ -25,6 +25,7 @@ public class TrackMagnet : MonoBehaviour
     public float deccelerator   = 15;
     public float jumpHeight     = 15;
     public bool isGrounded;
+    public CharacterAnimator animator;
     void Update()
     {
         // Quick hack to wait for 3..2..1.. ready
@@ -33,7 +34,7 @@ public class TrackMagnet : MonoBehaviour
             if (startupState == StartupState.idle) startupState = StartupState.ready;
         }
         if (startupState == StartupState.idle) return;
-        
+        animator.speed = currentSpeed * .1f;
             Vector3 direction   = transform.forward * Time.deltaTime * currentSpeed;
         Vector3 up          = transform.up;
         Ray ray             = new Ray(transform.position + (transform.up * 10), -transform.up);
