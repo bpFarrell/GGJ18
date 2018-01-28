@@ -18,7 +18,8 @@ public class TrackMagnet : MonoBehaviour
         idle,
         onTrack,
         jump,
-        falling
+        falling,
+        finished
     }
     public TrackingState trackingState;
     public float speedMAX       = 30;
@@ -54,6 +55,7 @@ public class TrackMagnet : MonoBehaviour
     {
         if(init) Controller();
 
+        GoalLogic.instance.CheckDistance(transform.position, this);
         // Quick hack to wait for 3..2..1.. ready
         if (jump)
         {
