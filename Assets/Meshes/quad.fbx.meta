@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: bb02aabb61ada9e49b687823b2a49615
-timeCreated: 1517028753
+guid: 5552876fd50238f4b98259f0bffbff1a
+timeCreated: 1517089022
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -10,7 +10,7 @@ ModelImporter:
     2100000: lambert1
     2300000: //RootNode
     3300000: //RootNode
-    4300000: pCube1
+    4300000: pPlane1
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -61,7 +61,7 @@ ModelImporter:
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
-    useFileScale: 1
+    useFileScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
