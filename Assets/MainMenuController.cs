@@ -13,10 +13,12 @@ using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour
 {
+    public static MainMenuController instance;
     public delegate void ReadyDelegate(bool state);
     public delegate void StartDelegate(int[] players);
     public class PlayerReadyUp
     {
+        public int index = -1;
         public bool isReady = false;
         public ReadyDelegate OnReadyChanged;
         public void Input()
@@ -29,8 +31,9 @@ public class MainMenuController : MonoBehaviour
             isReady = b;
             if (OnReadyChanged != null) OnReadyChanged(isReady);
         }
-        public PlayerReadyUp(Image image)
+        public PlayerReadyUp(Image image, int index)
         {
+            this.index = index;
             OnReadyChanged += ((b) => {
                 if (b)
                     image.color = Color.green;
@@ -41,7 +44,14 @@ public class MainMenuController : MonoBehaviour
         }
         public void Update()
         {
-            // check for input and call Input if detected;
+            if (ControllerManager.instance.controllerIDs.Count - 1 >= index)
+            {
+                Input(true);
+            }
+            else
+            {
+                Input(false);
+            }
         }
     }
     public List<PlayerReadyUp> players = new List<PlayerReadyUp>();
@@ -52,8 +62,10 @@ public class MainMenuController : MonoBehaviour
     {
         for (int i = 0; i < iconReferences.Length; i++)
         {
-            players.Add(new PlayerReadyUp(iconReferences[i]));
+            players.Add(new PlayerReadyUp(iconReferences[i], i));
         }
+        instance = this;
+        ControllerManager.instance.onControllSetupComplete += HideMenu;
     }
     private void Update()
     {
@@ -61,9 +73,9 @@ public class MainMenuController : MonoBehaviour
         {
             players[i].Update();
         }
-        if(false)
-        {
-            //if (OnStart != null) OnStart();
-        }
+    }
+    public void HideMenu()
+    {
+        gameObject.SetActive(false);
     }
 }
