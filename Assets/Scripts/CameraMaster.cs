@@ -12,14 +12,14 @@ public class CameraMaster : MonoBehaviour {
     public static CameraMaster instance;
     public static int currentPlayerSetup = -1;
     public bool updateCamera;
-    void SetupCamera() {
+    void SetupCamera(List<int> listController) {
         if(playerSets!=null)
             for(int x = 0; x < playerSets.Length; x++) {
                 Destroy(playerSets[x]);
             }
         playerCams = new Camera[playerCount];
         playerSets = new GameObject[playerCount];
-        for(int x = 0; x < playerCount; x++) {
+        for(int x = 0; x < listController.Count; x++) {
             currentPlayerSetup = x;
             playerSets[x] = Instantiate(playerSet);
             Vector3 point = SplineLogic.Spline.instance.EvaluatePosition(0.1f);
@@ -63,13 +63,14 @@ public class CameraMaster : MonoBehaviour {
     private void Awake() {
         instance = this;
     }
-    void Start () {
-        SetupCamera();
+    public void Initialize (List<int> listController) {
+        this.playerCount = listController.Count;
+        SetupCamera(listController);
 	}
     private void Update() {
         if (updateCamera) {
             updateCamera = false;
-            SetupCamera();
+        //    SetupCamera();
         }
     }
 }
