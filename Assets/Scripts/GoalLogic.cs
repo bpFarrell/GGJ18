@@ -14,6 +14,7 @@ public class GoalLogic : MonoBehaviour {
         instance = this;
     }
 	void Start () {
+        finishOrder = new int[]{ -1, -1, -1, -1 };
         float lastPoint = SplineLogic.Spline.instance.NodesCount-0.1f;
         Vector3 pos = SplineLogic.Spline.instance.EvaluatePosition(lastPoint);
         pos += SplineLogic.Spline.instance.EvaluateRotation(lastPoint) * new Vector3(0, 2, 15);
@@ -29,6 +30,13 @@ public class GoalLogic : MonoBehaviour {
 	}
     public void CheckDistance(Vector3 pos,TrackMagnet magnet) {
         if (Vector3.Distance(pos, transform.position) < scoreDistance) {
+            for(int x = 0; x < finishOrder.Length; x++) {
+                if (finishOrder[x] == magnet.playerID) return;
+                if (finishOrder[x] == -1) {
+                    finishOrder[x] = magnet.playerID;
+                    break;
+                }
+            }
             magnet.trackingState = TrackMagnet.TrackingState.finished;
             Debug.Log("HIITTTTT!!!!");
         }

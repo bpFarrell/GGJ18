@@ -55,8 +55,8 @@ public class TrackMagnet : MonoBehaviour
     {
         if(init) Controller();
 
+        if (trackingState == TrackingState.finished) return;
         GoalLogic.instance.CheckDistance(transform.position, this);
-        // Quick hack to wait for 3..2..1.. ready
         if (jump)
         {
             if (startupState == StartupState.idle) startupState = StartupState.ready;
@@ -163,6 +163,7 @@ public class TrackMagnet : MonoBehaviour
             if (Time.time > fallTime + 3) {
                 transform.position = fallPos;
                 transform.forward = fallDir;
+                trackingState = TrackingState.idle;
                 fallTime = float.MaxValue;
                 currentSpeed = 0;
             }
