@@ -93,14 +93,14 @@ public class TrackMagnet : MonoBehaviour
                     {
                         transform.Rotate(Vector3.up * 100 * Time.deltaTime);
                     }
-                    if (Input.GetKey(KeyCode.W) || Input.GetAxis("Vertical") < -.9f)
+                    if (Input.GetKey(KeyCode.S) || Input.GetAxis("Vertical") < -.9f)
                     {
                         if (currentSpeed > speedMIN)
                         {
                             currentSpeed -= Time.deltaTime * deccelerator;
                         }
                     }
-                    if (Input.GetKey(KeyCode.S) || Input.GetAxis("Vertical") > .9f)
+                    if (Input.GetKey(KeyCode.W) || Input.GetAxis("Vertical") > .9f)
                     {
                         if (currentSpeed < speedMAX)
                         {
