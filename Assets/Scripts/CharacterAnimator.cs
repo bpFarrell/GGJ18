@@ -15,8 +15,9 @@ public class CharacterAnimator : MonoBehaviour {
     public float jumping;
     public float speed;
     private float hornScale=2;
-	// Use this for initialization
-	void Awake () {
+    public bool isSpoofed;
+    public int spoofPlace;
+    void Awake () {
         sheepMat = sheep.GetComponent<MeshRenderer>().material;
         sheepMat = new Material(sheepMat);
         sheep.GetComponent<MeshRenderer>().material = sheepMat;
@@ -25,14 +26,26 @@ public class CharacterAnimator : MonoBehaviour {
         hornsMat = horns.GetComponent<MeshRenderer>().material;
         hornsMat = new Material(hornsMat);
         horns.GetComponent<MeshRenderer>().material = hornsMat;
-        sheepMat.SetColor("_Color", CameraMaster.instance.playerColors[CameraMaster.currentPlayerSetup]);
-        hornsMat.SetColor("_Color", CameraMaster.instance.playerColors[CameraMaster.currentPlayerSetup]);
+        if (!isSpoofed) {
+            sheepMat.SetColor("_Color", CameraMaster.instance.playerColors[CameraMaster.currentPlayerSetup]);
+            hornsMat.SetColor("_Color", CameraMaster.instance.playerColors[CameraMaster.currentPlayerSetup]);
+        }else {
+            if (spoofPlace >= CameraMaster.instance.playerCount) {
+                Destroy(gameObject);
+            }
+            sheepMat.SetColor("_Color", CameraMaster.instance.playerColors[GoalLogic.finishOrder[spoofPlace]]);
+            hornsMat.SetColor("_Color", CameraMaster.instance.playerColors[GoalLogic.finishOrder[spoofPlace]]);
+        }
     }
 	public float GetYPos(float animTime,float jumping) {
 
         return Mathf.Abs(Mathf.Sin(hornOffset+animTime)) * jumping;
     }
 	void Update () {
+        if (isSpoofed) {
+            transform.position += transform.forward * 10 * Time.deltaTime;
+
+        }
         jumping = speed;
         animSpeed = speed * 5 + 2;
 

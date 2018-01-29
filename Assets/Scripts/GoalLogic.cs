@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GoalLogic : MonoBehaviour {
     Vector3 startPos;
+    public GameObject endTrain;
     public float spinSpeed = 1;
     public float bounceSpeed = 1;
     public static int[] finishOrder;
@@ -51,6 +52,7 @@ public class GoalLogic : MonoBehaviour {
             if (OnLastFinish != null) {
                 OnLastFinish();
             }
+            endTrain.SetActive(true);
             Debug.Log("Reset the shit!");
         }
     }
