@@ -178,7 +178,7 @@ public class TrackMagnet : MonoBehaviour
             direction += transform.up * -Time.deltaTime * 9.8f;
             animator.speed = -1f;
 
-            if (Time.time > fallTime + 3) {
+            if (Time.time > fallTime + 2) {
                 transform.position = fallPos;
                 transform.forward = fallDir;
                 trackingState = TrackingState.idle;

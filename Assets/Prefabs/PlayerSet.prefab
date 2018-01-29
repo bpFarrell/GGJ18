@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 114276423155873164}
   - component: {fileID: 114802252047687908}
   - component: {fileID: 114609615967319276}
-  - component: {fileID: 135500111749735658}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -575,7 +574,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   magnetPlayer: {fileID: 114327089203515310}
-  slabs: []
   distBack: 7
   distUp: 8
   racer: {fileID: 4201009711458372}
@@ -672,6 +670,8 @@ MonoBehaviour:
   animSpeed: 0
   jumping: 0
   speed: 0
+  isSpoofed: 0
+  spoofPlace: 0
 --- !u!114 &114975800395855800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -692,18 +692,6 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1049664103310300}
   m_Enabled: 1
---- !u!135 &135500111749735658
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1049664103310300}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 2
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &198883545655255092
 ParticleSystem:
   m_ObjectHideFlags: 1
