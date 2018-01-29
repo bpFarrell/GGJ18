@@ -24,6 +24,7 @@ public class Pather : MonoBehaviour {
         smoothDist = Mathf.Lerp(smoothDist, _distance, Time.deltaTime*10);
         mat.SetFloat("_Location", smoothDist*0.5f+20);
         while(currentIndex < _highestIndex) {
+            if (currentIndex > SlabController.slabs.Count-1) break;
             SlabController.slabs[currentIndex].EnableRender();
             currentIndex++;
         }
