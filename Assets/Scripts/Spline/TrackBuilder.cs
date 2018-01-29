@@ -67,26 +67,48 @@ public class TrackBuilder : MonoBehaviour {
         spline.ClearNodes();
         spline.AddCurve((Vector3.forward * -20f) + transform.position, Quaternion.identity, 3.5f);
         CreateTrackNode(transform.position, Quaternion.identity, 7.5f, length);
-        SmoothObjects();
-        SmoothObjects();
+        spline.AddCurve((Vector3.forward * +60f) + spline.nodes[spline.numberOfCurves].transform.position, Quaternion.identity, 1.5f);
+        //SmoothObjects();
+        //SmoothObjects();
 
     }
     private void TempCreateTrackNode(Vector3 lastPos, Quaternion lastRot, float lastZScale, int depth)
     {
-        spline.AddCurve(lastPos, lastRot, lastZScale);
+        SplineNode node = spline.AddCurve(lastPos, lastRot, lastZScale);
         if (depth <= 0) return;
 
-        Quaternion yaw = Quaternion.AngleAxis(UnityEngine.Random.Range(-25f, 25f), lastRot * Vector3.up);
+        Vector3 circle = UnityEngine.Random.insideUnitCircle;
+        Vector3 offset = (lastRot * (Vector3.forward + (circle*4f)).normalized * 80f);
 
-        Vector3 offset = lastPos + (yaw * Vector3.forward * 10);
+        //Quaternion fromTo = Quaternion.FromToRotation(lastRot * Vector3.forward, offset);
+        //Quaternion rotation = Quaternion.RotateTowards(lastRot, fromTo, 10f) * Quaternion.AngleAxis(UnityEngine.Random.Range(-50f, 50f), lastRot * Vector3.forward);
 
-        Quaternion rotation = lastRot * Quaternion.AngleAxis(10f, lastRot * Vector3.forward);
+        float zScale = lastZScale + UnityEngine.Random.Range(-4f, 4f);
 
-        TempCreateTrackNode(offset, rotation, lastZScale, --depth);
+        offset = lastPos + offset;
+        offset.y = Mathf.Clamp(offset.y, 1, 1000);
+
+        TempCreateTrackNode(offset, lastRot, lastZScale, --depth);
+        int index = spline.numberOfCurves - depth;
+        if (index - 2 < 0f) return;
+        Transform next = spline.nodes[index].transform;
+        Transform prev = spline.nodes[index - 2].transform;
+
+        Vector3 rotation = Vector3.forward;
+        float pitch = 0f;
+
+        float yaw = Vector3.Dot(node.transform.rotation * Vector3.forward, (next.position - node.transform.position).normalized) + 
+                    Vector3.Dot(node.transform.rotation * Vector3.forward, (prev.position - lastPos).normalized);
+        rotation = Quaternion.AngleAxis(yaw * 40f, node.transform.rotation * node.transform.forward) * rotation;
+
+        float roll = Vector3.Dot(node.transform.rotation * Vector3.right, (next.position - node.transform.position).normalized) + 
+                     Vector3.Dot(node.transform.rotation * Vector3.right, (prev.position - node.transform.position).normalized);
+        rotation = Quaternion.AngleAxis(roll * 40f, node.transform.rotation * node.transform.forward) * rotation;
+
     }
     private void CreateTrackNode(Vector3 lastPos, Quaternion lastRot, float lastZScale, int depth )
     {
-        spline.AddCurve(lastPos, lastRot, lastZScale);
+        SplineNode node = spline.AddCurve(lastPos, lastRot, lastZScale);
         if (depth <= 0) return;
 
         Vector3 circle = UnityEngine.Random.insideUnitCircle;
@@ -103,5 +125,16 @@ public class TrackBuilder : MonoBehaviour {
         offset.y = Mathf.Clamp(offset.y, 1, 1000);
 
         CreateTrackNode(offset, rotation, zScale, --depth);
+        int index = spline.numberOfCurves - depth;
+        if (index - 2 < 0f) return;
+        Transform next = spline.nodes[index].transform;
+        Transform prev = spline.nodes[index - 2].transform;
+
+        //Vector3 rotation = Vector3.forward;
+
+        float roll = Vector3.Dot(node.transform.rotation * Vector3.right, (next.position - node.transform.position).normalized) +
+                     Vector3.Dot(node.transform.rotation * Vector3.right, (prev.position - node.transform.position).normalized);
+
+        node.transform.rotation = node.transform.rotation * Quaternion.AngleAxis(roll * 45f, node.transform.rotation * Vector3.forward);
     }
 }
