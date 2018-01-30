@@ -189,6 +189,8 @@ public class TrackMagnet : MonoBehaviour
 
         transform.position += direction;
         Vector3 forward = transform.forward;
+        Vector3 right = transform.right;
+        forward = Vector3.Cross(right, up);
         transform.rotation = Quaternion.LookRotation(forward, up.normalized);
     }
 
