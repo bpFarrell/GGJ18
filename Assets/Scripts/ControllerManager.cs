@@ -14,6 +14,10 @@ public class ControllerManager : MonoBehaviour {
     {
         _instance = this;
         Debug.Log(instance);
+#if UNITY_ANDROID
+        controllerIDs.Add(0);
+        beginCountdown = true;
+#endif
     }
 
     List<TrackMagnet> players = new List<TrackMagnet>();

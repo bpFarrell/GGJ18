@@ -37,6 +37,7 @@ public class TrackMagnet : MonoBehaviour
 
     public Vector3 fallPos;
     public Vector3 fallDir;
+    public Vector3 fallNormal;
     public float fallTime;
 
     public float axisHorizontal;
@@ -62,10 +63,17 @@ public class TrackMagnet : MonoBehaviour
 
     private void Awake()
     {
+#if UNITY_ANDROID
+        Input.gyro.enabled = true;
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+#endif
         CountDown.OnGo += OnGo;
     }
     public void OnGo() {
         canStart = true;
+#if UNITY_ANDROID
+        startupState = StartupState.ready;
+#endif
     }
     void Update()
     {
@@ -132,7 +140,11 @@ public class TrackMagnet : MonoBehaviour
                 {
                     Vector3 point = hitInfo.point;
                     trackingState = TrackingState.onTrack;
-
+#if UNITY_ANDROID
+                    Vector3 r = Input.gyro.attitude * Vector3.right;
+                    float d = -Vector3.Dot(r, Vector3.forward);
+                    transform.Rotate(Vector3.up * 100 * Time.deltaTime* d);
+#endif
                     if (axisHorizontal < -.9f)
                     {
                         transform.Rotate(Vector3.up * -100 * Time.deltaTime);
@@ -159,6 +171,7 @@ public class TrackMagnet : MonoBehaviour
                     {
                         if (currentSpeed < speedNORM) currentSpeed += Time.deltaTime*accelerator;
                     }
+
                     //   Vector3 point = hitInfo.point;
                     transform.position = Vector3.Lerp(transform.position, point, Time.deltaTime*currentSpeed);
                     up = hitInfo.normal;
@@ -171,6 +184,7 @@ public class TrackMagnet : MonoBehaviour
             if (trackingState != TrackingState.falling) {
                 fallPos = sheepTracking.latestSlab.transform.position;
                 fallDir = sheepTracking.latestSlab.transform.forward;
+                fallNormal = sheepTracking.latestSlab.transform.up;
                 fallTime = Time.time;
 
             }
@@ -180,7 +194,8 @@ public class TrackMagnet : MonoBehaviour
 
             if (Time.time > fallTime + 2) {
                 transform.position = fallPos;
-                transform.forward = fallDir;
+                //transform.forward = fallDir;
+                transform.rotation = Quaternion.LookRotation(fallDir, fallNormal);
                 trackingState = TrackingState.idle;
                 fallTime = float.MaxValue;
                 currentSpeed = 2;
