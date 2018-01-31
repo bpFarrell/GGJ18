@@ -9,31 +9,31 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1241539557805134}
+  m_RootGameObject: {fileID: 1102633042466578}
   m_IsPrefabParent: 1
---- !u!1 &1241539557805134
+--- !u!1 &1102633042466578
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4021163793197030}
-  - component: {fileID: 114558983976059922}
-  - component: {fileID: 82979389837090710}
+  - component: {fileID: 4248851838216330}
+  - component: {fileID: 114013591663032656}
+  - component: {fileID: 82394800592306386}
   m_Layer: 0
-  m_Name: MusicController
+  m_Name: FallTracker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4021163793197030
+--- !u!4 &4248851838216330
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1241539557805134}
+  m_GameObject: {fileID: 1102633042466578}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 17.915833, y: 17.808815, z: 19.88879}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -41,19 +41,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &82979389837090710
+--- !u!82 &82394800592306386
 AudioSource:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1241539557805134}
+  m_GameObject: {fileID: 1102633042466578}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 243878492910928676, guid: 7040ddd9575a9b4499147699ea2c3218,
+  OutputAudioMixerGroup: {fileID: 243028981840333734, guid: 7040ddd9575a9b4499147699ea2c3218,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 23afe988d07fa3d49b6ae118c64055aa, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 12140f9b6c4ad6743875598db9aec725, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -122,23 +122,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &114558983976059922
+--- !u!114 &114013591663032656
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1241539557805134}
+  m_GameObject: {fileID: 1102633042466578}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d399d602abb286d4e95866b20adc389e, type: 3}
+  m_Script: {fileID: 11500000, guid: ca01f455396008447ae75361749e677e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Music: {fileID: 24100000, guid: 7040ddd9575a9b4499147699ea2c3218, type: 2}
-  songList:
-  - {fileID: 8300000, guid: 23afe988d07fa3d49b6ae118c64055aa, type: 3}
-  - {fileID: 8300000, guid: 550e3e77c3170ba45ac6f9adeb089592, type: 3}
-  songPlaying: {fileID: 82979389837090710}
-  titleHigh: 180
-  titleLow: 3500
-  gameplayHigh: 10
-  gameplayLow: 22000
+  fallSound: {fileID: 82394800592306386}
+  fallSoundList:
+  - {fileID: 8300000, guid: 12140f9b6c4ad6743875598db9aec725, type: 3}
+  - {fileID: 8300000, guid: 7ca64b8f3b8e09b4ab9743234dd7d585, type: 3}

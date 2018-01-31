@@ -75,9 +75,9 @@ AudioMixerSnapshotController:
     a1b5081199c4d0b44b06622a2158960d: 120
     80c16d81857eca944ae91b77091ea71f: 10
     e11ddde10098a4644ac5f12da2b58044: 1
-    c447a453e58055e42bbccd1466e0062a: 3170
+    c447a453e58055e42bbccd1466e0062a: 22000
     43d489c3fb354a044a39a8f7b5a7a086: 180
-    0d5530268b944ee42a024fa20c033858: -10
+    0d5530268b944ee42a024fa20c033858: 0
     9ee00347e815c1e408dada80b24541dc: 1
     62b1cc57dfe1236409b888e0239144c2: 1
     f0381c3a5bb5b0f459cd781dc23eb545: 3000
@@ -89,7 +89,7 @@ AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: PlayerSteps
+  m_Name: SFX
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 7a06c5d6612bcd6479af1fe55554ff45
   m_Children: []
@@ -97,7 +97,6 @@ AudioMixerGroupController:
   m_Pitch: 7db824bfa9cf3154594837462423a900
   m_Effects:
   - {fileID: 244819256377848530}
-  - {fileID: 244069764183456480}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
@@ -136,23 +135,6 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
---- !u!244 &244069764183456480
-AudioMixerEffectController:
-  m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_EffectID: 7b3dd0b49c25f5849b2a3c4e9377aaa1
-  m_EffectName: Lowpass
-  m_MixLevel: 790d671535dac1f478d93e5b33286661
-  m_Parameters:
-  - m_ParameterName: Cutoff freq
-    m_GUID: 2f42f8ca5046d3d44be0118f90f38530
-  - m_ParameterName: Resonance
-    m_GUID: d5c04638af5c1c74581d5110471c38d3
-  m_SendTarget: {fileID: 0}
-  m_EnableWetMix: 0
-  m_Bypass: 0
 --- !u!244 &244264144595217046
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
