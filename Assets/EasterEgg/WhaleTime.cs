@@ -17,7 +17,7 @@ public class WhaleTime : MonoBehaviour {
 	void Update () {
         if(startTime<Time.time)
         transform.position += transform.forward * Time.deltaTime * speed;
-        if(transform.position.z < -240) {
+        if(transform.position.z < -720) {
 
             Reset();
         }

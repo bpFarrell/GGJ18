@@ -23,6 +23,7 @@ public class TrackBuilder : MonoBehaviour {
         if (generationEnabled)
             CreateTrackNodes();
 
+        transform.Rotate(0, UnityEngine.Random.Range(0, 360), 0);
         SpawnSlabs();
 	}
 

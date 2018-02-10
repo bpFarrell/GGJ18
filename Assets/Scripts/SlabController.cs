@@ -65,6 +65,7 @@ public class SlabController : MonoBehaviour {
             go.transform.localPosition = new Vector3(x-((float)(width-1)*0.5f), 0, 0);
             go.transform.localEulerAngles = new Vector3(0, 0, 0);
             go.GetComponent<MeshRenderer>().material = mat;
+            go.layer = 4;
             Mesh mesh = go.GetComponent<MeshFilter>().mesh;
             float xPos = ((float)x) / (width - 1);
             Color[] clrs = new Color[4];

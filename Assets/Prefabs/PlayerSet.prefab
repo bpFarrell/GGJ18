@@ -338,7 +338,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 10000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -602,12 +602,13 @@ MonoBehaviour:
   currentSpeed: 0
   accelerator: 5
   deccelerator: 10
-  jumpHeight: 15
+  jumpHeight: 3
   isGrounded: 0
   animator: {fileID: 114845065765919428}
   sheepTracking: {fileID: 114388661180156652}
   fallPos: {x: 0, y: 0, z: 0}
   fallDir: {x: 0, y: 0, z: 0}
+  fallNormal: {x: 0, y: 0, z: 0}
   fallTime: 0
   axisHorizontal: 0
   axisVertical: 0

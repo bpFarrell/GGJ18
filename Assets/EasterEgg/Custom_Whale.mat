@@ -19,18 +19,18 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _GlowMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 78a93e2271deda44eb62ba98b6ac19a0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 78a93e2271deda44eb62ba98b6ac19a0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Glossiness: 0.5
+    - _Glossiness: 1
     - _Metallic: 0
-    - _T: 0
+    - _T: 10.19
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _GlowColorA: {r: 1, g: 1, b: 1, a: 1}
-    - _GlowColorB: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.83729506, g: 0.7684498, b: 5.4499993, a: 1}
+    - _GlowColorA: {r: 3.42, g: 0, b: 3.42, a: 1}
+    - _GlowColorB: {r: 4.559, g: 0, b: 4.559, a: 1}
