@@ -174,7 +174,7 @@ public class TrackMagnet : MonoBehaviour
 
                     //   Vector3 point = hitInfo.point;
                     transform.position = Vector3.Lerp(transform.position, point, Time.deltaTime*currentSpeed);
-                    up = hitInfo.normal;
+                    up = hitInfo.transform.up;
                 }
 
             }
