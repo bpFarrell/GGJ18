@@ -56,6 +56,7 @@ public class ControllerManager : MonoBehaviour {
             setupCountdown -= Time.deltaTime;
             if (setupCountdown <= 0.1f) {
                 CameraMaster.instance.Initialize(controllerIDs);
+                ColorSwapper.instance.TrySwap();
                 CountDown.SetAndCount();
                 if (onControllSetupComplete != null) onControllSetupComplete();
                 gameBegan = true;
